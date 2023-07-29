@@ -1,0 +1,46 @@
+<div class="mask" style="background-color: rgba(0, 0, 0, 0.8); min-height: 100vh; max-height:fit-content;">
+<div class="text-white">
+<h1><center>{{title}}</center></h1>
+<div style="float: right;">
+<form style="margin-right: 5px;">
+  <label for="limit">Limit:</label>
+  <input type="number" name="limit" id="limit" value="{{limit}}">
+  <label for="skip">Skip:</label>
+  <input type="number" name="skip" id="skip" value="{{skip}}">
+  <button type="submit" class="btn btn-outline-primary">Apply</button>
+  </form>
+</div>
+
+<ul>
+  {{#each groups}}
+    <li>
+      <h2><a href="/users/{{user_Id}}/groups/{{groupId}}">{{Name}}</a></h2>
+      <p>Description: {{Description}}</p>
+      <div class="row d-flex ">
+        <div class="col-md-4">
+          <div class="row mb-4">
+            {{#if movieId}}
+              <div class="col">
+                <form class="d-flex" method="post" action="/users/{{user_Id}}/groups/{{groupId}}/addMovie/{{movieId}}">
+                  <button class="btn btn-outline-primary" type="submit">Add movie</button>
+                </form>
+              </div>
+            {{/if}}
+            <div class="col">
+              <form class="d-flex" action="/users/{{user_Id}}/groups/{{groupId}}/delete" method="POST">
+                <button class="btn btn-outline-primary" type="submit">Delete group</button>
+              </form>
+            </div>
+            <div class="col">
+              <form class="d-flex" action="/users/{{user_Id}}/groups/{{groupId}}/update" method="GET">
+                <button class="btn btn-outline-primary" type="submit">Update group</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </li>
+  {{/each}}
+</ul>
+</div>
+</div>

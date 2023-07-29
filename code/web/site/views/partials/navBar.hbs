@@ -1,0 +1,55 @@
+<navBar class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <a class="navbar-brand" 
+          {{#if home}}
+            "active disabled" 
+          {{/if}}
+            href="/home" title="Home Page">
+        <img src="https://www.linkpicture.com/q/logo-removebg-preview_21.png" alt="CMDB Logo" width="80" height="30">
+      </a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link 
+          {{#if topMovies}}
+            active disabled" 
+          {{/if}}
+          aria-current="page" href="/topMovies">TopMovies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link
+          {{#if createGroup}}
+            active disabled" 
+          {{/if}}
+          "href="/groups/newGroup">CreateGroup</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link
+          {{#if getAllGroups}}
+            active disabled" 
+          {{/if}}
+          "href="/groups">AllGroups</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link
+          {{#if getGroups}}
+            active disabled" 
+          {{/if}}
+          "href="/users/{{loginId}}/groups">MyGroups</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link
+          {{#if createUser}}
+            active disabled" 
+          {{/if}}
+          "href="/users">CreateUser</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search" action="/movies{{search}}">
+        <input class="form-control me-2" name="expression" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-primary" type="submit">Search</button> 
+      </form>
+    </div>
+      {{> logout}}
+  </div>
+</navBar>

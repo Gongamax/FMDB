@@ -1,0 +1,33 @@
+<div class="mask" style="background-color: rgba(0, 0, 0, 0.8); height:100vh;">
+    <div class="container d-flex align-items-center justify-content-center text-center h-100">
+        <div class="text-white">
+            <h2 class="mb-5 text-center">Update Group: {{Name}}</h2>
+            <form action="/users/{{userId}}/groups/{{groupId}}/update" method="POST">
+                <div class="form-outline mb-2">
+                    <label class = "form-label" for="txtName">Group's name:</label>
+                	<input type="text" id="txtName" name="name" class="form-control" />
+                </div>
+
+              	<div class="form-outline mb-4">
+                    <label class = "form-label" for="txtDesc">Description:</label>
+                	<textarea class="form-control" id="txtDesc" rows="4" name="description"></textarea>
+              	</div>
+
+			 	<button type="submit" class="btn btn-primary btn-block mb-4">
+                	Update Group
+            	</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<form action="/users/{{userId}}/groups/{{groupId}}/update" method="POST">
+    <p>Group name: <input type="text" name="name"></p>
+    <p>
+    Group description: <textarea name="description">
+    </textarea>
+    </p>
+    <button class="btn btn-outline-primary" type="submit">Update Group</button>
+</form>
+</ul>
+

@@ -1,0 +1,66 @@
+{{!-- <div class="mask" style="background-color: rgba(0, 0, 0, 0.8); height:100vh;">
+<div class="text-white">
+<h2>{{title}}</h2>
+<ul>
+    <h3><center>{{movie.title}}</center></h3>
+    <h4>
+        <a href="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" title="{{movie.image}}"><img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" width="120" height="180" alt=""> </a>
+        <p></p>
+        <p><form class="d-flex" role="search" action="/users/{{loginId}}/groups{{search}}">
+                <button class="btn btn-outline-primary" type="search" name="movieId" value="{{movie.id}}">+ Add movie</button>
+            </form>
+        </p>
+    </h4>
+    <p> Release Date: {{movie.release_date}}</p>
+    <p> Run Time: {{movie.runtimeMins}} minutes</p>  
+    <p> Rating: {{movie.vote_average}}</p>
+    <p> Overview: {{movie.overview}}</p> 
+</ul>
+</div>
+</div> --}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>{{title}}</title>
+  <style>
+    body {
+      background-color: #212529;
+    }
+    .card {
+      margin: 20px auto;
+      max-width: 500px;
+    }
+    .movie-poster {
+      width: 120px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card bg-dark text-white">
+    <div class="card-body">
+      <h2 class="card-title text-center">{{title}}</h2>
+      <h3 class="card-title text-center">{{movie.title}}</h3>
+      <div class="text-center">
+        <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" alt="{{movie.title}} Poster" class="img-fluid movie-poster">
+      </div>
+      <p></p>
+      <form class="d-flex mb-3" role="search" action="/users/{{loginId}}/groups{{search}}">
+        <button class="btn btn-outline-primary" type="search" name="movieId" value="{{movie.id}}">+ Add movie</button>
+      </form>
+      <p class="card-text"><strong>Release Date:</strong> {{movie.release_date}}</p>
+      <p class="card-text"><strong>Run Time:</strong> {{movie.runtimeMins}} minutes</p>
+      <p class="card-text"><strong>Rating:</strong> {{movie.vote_average}}</p>
+      <p class="card-text"><strong>Overview:</strong> {{movie.overview}}</p>
+    </div>
+  </div>
+</body>
+</html>

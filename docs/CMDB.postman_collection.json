@@ -1,0 +1,370 @@
+{
+	"info": {
+		"_postman_id": "32bd8033-9255-48ff-8991-a46264aff2d9",
+		"name": "CMDB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24419107"
+	},
+	"item": [
+		{
+			"name": "CreateUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"joao\"\r\n}\r\n  \r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1010/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1010",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateGroup",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "40c13734-4bfe-48b8-ade2-ef75797bfdd7",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Group Title 2\",\r\n    \"description\": \"Group description\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1010/users/:0/groups",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1010",
+					"path": [
+						"users",
+						":0",
+						"groups"
+					],
+					"variable": [
+						{
+							"key": "0",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTopMovies",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1010/topMovies?limit=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1010",
+					"path": [
+						"topMovies"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getMovieByExpression",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "40c13734-4bfe-48b8-ade2-ef75797bfdd7",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1010/movies/:expression",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1010",
+					"path": [
+						"movies",
+						":expression"
+					],
+					"query": [
+						{
+							"key": "expression",
+							"value": "Inception",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "expression",
+							"value": "Inception"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteGroup",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "d3a0abb8-d446-494a-a125-ca63cf46b851",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1010/users/:userId/groups/:groupId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1010",
+					"path": [
+						"users",
+						":userId",
+						"groups",
+						":groupId"
+					],
+					"variable": [
+						{
+							"key": "userId",
+							"value": "0"
+						},
+						{
+							"key": "groupId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateGroup",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "93c11ad8-e00f-45ff-abce-c85a5dd31e12",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 1,\r\n  \"title\": \"Group added 1\",\r\n  \"description\": \"Group description added 1\",\r\n  \"userId\": 0\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:1010/users/:userId/groups/:groupId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1010",
+					"path": [
+						"users",
+						":userId",
+						"groups",
+						":groupId"
+					],
+					"variable": [
+						{
+							"key": "userId",
+							"value": "0"
+						},
+						{
+							"key": "groupId",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getGroup",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "40c13734-4bfe-48b8-ade2-ef75797bfdd7",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1010/users/:userId/groups/:groupId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1010",
+					"path": [
+						"users",
+						":userId",
+						"groups",
+						":groupId"
+					],
+					"variable": [
+						{
+							"key": "userId",
+							"value": "0"
+						},
+						{
+							"key": "groupId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllGroups",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "3e0d28bd-91ca-471f-b60c-571eed14db0c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1010/groups",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1010",
+					"path": [
+						"groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addMovieToGroup",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "40c13734-4bfe-48b8-ade2-ef75797bfdd7",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:1010/groups/:groupId/:movieId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1010",
+					"path": [
+						"groups",
+						":groupId",
+						":movieId"
+					],
+					"variable": [
+						{
+							"key": "groupId",
+							"value": "0"
+						},
+						{
+							"key": "movieId",
+							"value": "Inception"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

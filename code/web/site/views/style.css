@@ -1,0 +1,65 @@
+body {
+    background-color: #f8f9fa;
+  }
+
+  .header-bg {
+    background-color: #007bff;
+    background-image: linear-gradient(180deg, #007bff 0%, #0056b3 100%);
+  }
+
+  .header-text {
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .movie-card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    min-height: 100%;
+  }
+
+  .movie-description {
+    /* Limit the description height to 3 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .movie-card:hover {
+    transform: scale(1.05);
+  }
+
+    /* Custom CSS for the search box */
+    .search-box {
+      position: relative;
+    }
+
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      transform: translateY(-50%);
+      color: #888;
+    }
+
+    .search-input {
+      padding-left: 45px;
+    }
+
+    .loading-icon {
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      transform: translateY(-50%);
+      color: #888;
+      display: none;
+    }
+
+    .search-input:focus + .loading-icon {
+      display: block;
+    }

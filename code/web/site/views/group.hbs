@@ -1,0 +1,26 @@
+<div class="mask" style="background-color: rgba(0, 0, 0, 0.8); min-height: 100vh; max-height:fit-content + 10vh;">
+<div class="text-white">
+<center><h1>Group "{{group.Name}}" information:</h1></center>
+<ul>
+    <p> - Name: {{group.Name}}</p>
+    <p> - Description: {{group.Description}}</p>
+    <p> - id: {{group.groupId}}</p>
+    <p> - Movies:
+        <ul>
+            {{#each group.movies}}
+                <p><img src="{{image}}" width="60" height="80" alt=""> {{fullTitle}} {{imDbRating}}</p>
+                <form class="d-flex" action="/users/{{../group.user_Id}}/groups/{{../group.groupId}}/deleteMovie/{{id}}" method="POST">
+                <button class="btn btn-outline-primary mb-3" type="submit">- Delete movie</button>
+                </form>
+                <p> Directors: {{directors}}</p>
+                <p> Actors: {{stars}}</p> 
+                <p> Run Time: {{runtimeMins}} minutes</p> 
+            {{/each}}
+        </ul>
+    </p>
+    <p>
+        - Run Time of my group: {{group.Tempo}} minutes
+    </p>
+</ul>
+</div>  
+</div>

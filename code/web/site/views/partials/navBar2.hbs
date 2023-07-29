@@ -1,0 +1,50 @@
+<!-- Navbar -->
+<navBar2 class="navbar navbar-expand-lg bg-dark navbar-dark py-3 sticky-top"> 
+    <div class="container">
+     <a class="navbar-brand" href="/home" title="Home Page"> 
+        <img src = "../imgs/FMDB_logo2.png" alt="Home Page" width="50" height="50">   
+        FMDB
+      </a>
+
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navmenu"
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <link rel="stylesheet" href="../style.css" />
+    <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link 
+                {{#if topMovies}}
+                    active disabled" 
+                {{/if}}
+                aria-current="page" href="/topMovies">TopMovies</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link
+                {{#if getGroups}}
+                    active disabled" 
+                {{/if}}
+                "href="/users/{{loginId}}/groups">MyGroups</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link
+                {{#if createUser}}
+                    active disabled" 
+                {{/if}}
+                "href="/users">CreateUser</a>
+            </li>
+        </ul>
+    </div>
+    <form class="d-flex" role="search" action="/movies{{search}}">
+            <input class="form-control me-2" name="expression" type="search" placeholder="Search any movies..." aria-label="Search">
+            <button type="submit" class="btn btn-dark"> <i class="bi bi-search"></i> </button>
+    </form>
+    {{!-- {{> logout}} --}}
+    {{> loginOrLogout}}
+    </div>
+</navBar2>

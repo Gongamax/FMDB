@@ -1,0 +1,25 @@
+<div class="mask" style="background-color: rgba(0, 0, 0, 0.8); height:fit-content;">
+<div class="text-white">
+<center><h1 class="header">{{title}}</h1></center>
+<h1></h1>
+
+<div style="float: right;">
+<form style="margin-right: 5px;">
+  <label for="limit">Limit:</label>
+  <input type="number" name="limit" id="limit" value="{{limit}}">
+
+  <label for="skip">Skip:</label>
+  <input type="number" name="skip" id="skip" value="{{skip}}">
+  <button type="submit" class="btn btn-outline-primary">Apply</button>
+  </form>
+</div>
+
+<ul>
+  {{#each movies}}
+    <p> </p>
+    <p><img src="{{image}}" width="80" height="120" alt="">  {{rank}}. <a href="./movies/movie/{{id}}">{{title}}</a> {{rating}}</p>
+    <p> </p>
+  {{/each}}
+</ul>
+</div>
+</div>

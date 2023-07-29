@@ -1,0 +1,242 @@
+{
+	"info": {
+		"_postman_id": "6714252b-e382-488d-9881-bc10f0785424",
+		"name": "Elastic-Search",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24419107"
+	},
+	"item": [
+		{
+			"name": "Create document",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"User 1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/users/_doc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"users",
+						"_doc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a document",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9200/users/_doc/awNSd4UBfbq1awiIqrpw",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"users",
+						"_doc",
+						"awNSd4UBfbq1awiIqrpw"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create indice",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9200/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a document with Put",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9200/users/_doc/user2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"users",
+						"_doc",
+						"user2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List all indice documents",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9200/users/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"users",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bulk insert",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "bfd34080-92f6-463b-9c47-1a13f81a4f23",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/users/_bulk",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"users",
+						"_bulk"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a doc",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9200/users/_doc/bANkd4UBfbq1awiIbLrZ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"users",
+						"_doc",
+						"bANkd4UBfbq1awiIbLrZ"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a doc for groups",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\" : \"Group 1\",\r\n    \"Description\" : \"Description 1\",\r\n    \"movies\" : [],\r\n    \"UserID\" : 1,\r\n    \"ID\" : 0,\r\n    \"Tempo\" : 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/groups/_doc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"groups",
+						"_doc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get group using userID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"query\": {\r\n              \"match\": {\r\n                \"UserID\": 1\r\n              }\r\n            }\r\n          }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/groups/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"groups",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
