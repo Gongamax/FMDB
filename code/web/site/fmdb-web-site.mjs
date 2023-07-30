@@ -6,11 +6,17 @@
 
 import url from 'url'
 import toHttpResponse from '../api/response-errors.mjs'
+import { getUser } from '../../data/db/fmdb-users-data-elastic.mjs';
+import errors from '../../errors.mjs';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 export default function (fmdbGroupServices, fmdbMovieServices) {
-    if(!fmdbGroupServices) 
-      throw new Error('cmdbServices is required')
+    if(!fmdbGroupServices) {
+      throw errors.INVALID_PARAMETER('fmdbGroupServices')
+    }
+    if(!fmdbMovieServices) {
+      throw errors.INVALID_PARAMETER('fmdbMovieServices')
+    }
 
     return {
         checkGroupAccess : checkGroupAccess,
@@ -55,13 +61,14 @@ export default function (fmdbGroupServices, fmdbMovieServices) {
     async function getHome(req, rsp){
       const upcomingMovies = await fmdbMovieServices.getUpcomingMovies(3, 0)
       const popularMovies = await fmdbMovieServices.getPopularMovies(9, 0)
-      rsp.render('home', {home: true, upcomingMovies: upcomingMovies, popularMovies: popularMovies, loginId: req.cookies.token, username : req.user})
+      const user = await getUser(req.cookies.token).userName
+      rsp.render('home', {home: true, upcomingMovies: upcomingMovies, popularMovies: popularMovies, loginId: req.cookies.token, user: user})
     }
 
     async function getGroups(req, rsp) {
       const limit = req.query.limit ? parseInt(req.query.limit) : 10
       const skip = req.query.skip ? parseInt(req.query.skip) : 0
-      const groups = await fmdbGroupServices.getGroups(req.token, req.query.q, skip, limit)
+      const groups = await fmdbGroupServices.getGroups(req.token, req.query.q, limit, skip)
       groups.forEach(element => {element.movieId = req.query.movieId});
       rsp.render('groups', 
       { title: 'My groups', groups: groups, movieId: req.query.movieId, loginId: req.cookies.token, limit: limit, skip : skip})
@@ -115,7 +122,7 @@ export default function (fmdbGroupServices, fmdbMovieServices) {
       const limit = req.query.limit ? parseInt(req.query.limit) : 20
       const skip = req.query.skip ? parseInt(req.query.skip) : 0
       let movies = await fmdbMovieServices.getTopMovies(limit, skip) 
-      rsp.render("movies", { title: `Top ${limit} Movies`, movies: movies, loginId: req.cookies.token, limit: limit, skip : skip})
+      rsp.render("movies", { title: `Top Rated Movies`, movies: movies, loginId: req.cookies.token, limit: limit, skip : skip})
     }
 
     async function getMovieByExpression(req,rsp) {

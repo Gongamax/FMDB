@@ -1,22 +1,26 @@
-<div class="mask" style="background-color: rgba(0, 0, 0, 0.8); height:100vh;">
-    <div class="container d-flex align-items-center justify-content-center text-center h-100">
-		<div class="text-white">
-			<h1 class="mb-5 text-center"><strong>Login</strong></h1>
-			<form action="/login" method="POST">
-				<div class="form-outline mb-2">
-					<label class = "form-label" for="txtUserName">Username:</label>
-                	<input type="text" id="txtUserName" name="username" class="form-control" />
-              	</div>
-
-              	<div class="form-outline mb-4">
-					<label class = "form-label" for="txtPassword">Password:</label>
-                	<input type="password" id="txtPassword" name="password" class="form-control" />
-              	</div>
-
-			 	<button type="submit" class="btn btn-primary btn-block mb-4">
-                	login
-            	</button>
-			</form>
-		</div>
-	</div>
-</div>
+<section class="mask bg-white pt-5" style="height: 100vh;">
+  <div class="container mt-5 pt-5">
+    <div class="row">
+      <div class="col-12 col-sm-8 col-md-6 m-auto">
+        <div class="card square-form">
+          <div class="card-body">
+            <div class="text-center mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+              </svg>
+            </div>
+            <form action="/login" method="POST">
+              <input type="text" name="username" id="txtUserName" class="form-control my-3 py-2" placeholder="Username">
+              <input type="password" name="password" id="txtPassword" class="form-control my-3 py-2" placeholder="Password">
+              <div class="text-center mt-3">
+                <button class="btn btn-primary" type="submit">Login</button>
+                <a href="/users" class="nav-link">Already have an account?</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

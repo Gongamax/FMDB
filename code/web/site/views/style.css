@@ -63,3 +63,10 @@ body {
     .search-input:focus + .loading-icon {
       display: block;
     }
+
+
+  /* Custom CSS for the login form */
+  .square-form {
+    width: 300px; /* Adjust the width to make it a square */
+    margin: auto; /* Center the form horizontally */
+  }

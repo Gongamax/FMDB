@@ -23,5 +23,11 @@ export default {
             code: 4,
             message: `Movie with id ${idMovie} not found`
         }
-    }
+    },
+    USER_ALREADY_EXISTS: () => {
+        return {
+            code: 5,
+            message: `User already exists`
+        }
+    },
 }

@@ -2,11 +2,11 @@
 // Register all HTTP API routes and starts the server
 
 import express from 'express'
-import * as fmdbData from './data/local/fmdb-data-mem.mjs'
-// import * as fmdbData from './data/db/fmdb-data-elastic.mjs'
+// import * as fmdbData from './data/local/fmdb-data-mem.mjs'
+// import * as fmdbUsersData from './data/local/fmdb-users-data-mem.mjs'
+import * as fmdbData from './data/db/fmdb-data-elastic.mjs'
+import * as fmdbUsersData from './data/db/fmdb-users-data-elastic.mjs'
 import * as fmdbMoviesData from './data/tmdb-movies-data.mjs'
-// import * as fmdbUsersData from './data/db/fmdb-users-data-elastic.mjs'
-import * as fmdbUsersData from './data/local/fmdb-users-data-mem.mjs'
 import fmdbGroupServicesInit from './services/fmdb-groups-services.mjs'
 import fmdbUsersServicesInit from './services/fmdb-users-services.mjs'
 import fmdbMoviesServicesInit from './services/fmdb-movies-services.mjs'
@@ -23,14 +23,14 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 
-const fmdbGroupServices = fmdbGroupServicesInit(fmdbData)
+const fmdbGroupServices = fmdbGroupServicesInit(fmdbData,fmdbUsersData)
 const fmdbUserServices = fmdbUsersServicesInit(fmdbUsersData)
 const fmdbMovieServices = fmdbMoviesServicesInit(fmdbMoviesData)
 const fmdbApi = fmdbApiInit(fmdbUserServices, fmdbGroupServices, fmdbMovieServices)
 const fmdbSite = fmdbSiteInit(fmdbGroupServices, fmdbMovieServices)
 const authRouter = authUiFunction(fmdbUserServices)
 
-const swaggerDocument = yaml.load('./docs/cmdb-api-spec.yaml')
+const swaggerDocument = yaml.load('./docs/fmdb-api-spec.yaml')
 const PORT = 8888
 
 console.log("Start setting up server")
@@ -49,6 +49,7 @@ app.set('views', path.join(__dirname, 'web', 'site', 'views'));
 app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/web/site/views/partials');
 app.use(express.static('code/web/site/views')); 
+app.use(express.static(path.join(__dirname, "node_modules/bootstrap/dist/")));
 
 //Authentication
 app.use("/api",authorizationMw)

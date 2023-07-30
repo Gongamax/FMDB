@@ -1,7 +1,8 @@
-<div class="mask" style="background-color: rgba(0, 0, 0, 0.8); height:fit-content;">
-<div class="text-white">
-<center><h1 class="header">{{title}}</h1></center>
-<h1></h1>
+<div class="bg-dark text-light p-5 p-lg-0 pt-lg-5 text-center">
+<center><h1><span class="text-warning">{{title}} </span></h1></center>
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="./style.css" />
 
 <div style="float: right;">
 <form style="margin-right: 5px;">
@@ -14,12 +15,25 @@
   </form>
 </div>
 
-<ul>
+<section class="bg-dark text-dark p-5">
+      <div class="container mt-5">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
   {{#each movies}}
-    <p> </p>
-    <p><img src="{{image}}" width="80" height="120" alt="">  {{rank}}. <a href="./movies/movie/{{id}}">{{title}}</a> {{rating}}</p>
-    <p> </p>
+        <div class="col">
+          <div class="movie-card bg-white p-4 h-100 d-flex flex-column">
+            <img src="{{image}}" alt="Movie Poster" class="img-fluid mb-3">
+            <h3 class="mb-0">{{title}} 1</h3>
+            <p class="text-muted">Release Date: {{releaseDate}}</p>
+            <p class="text-muted">Rank: {{rank}}</p>
+            <p class="text-muted">Rating: {{rating}}</p>
+            <p class="movie-description">{{overview}}</p>
+            <div class="mt-auto">
+              <a href="/movies/movie/{{id}}" class="btn btn-primary">Details</a>
+            </div>
+          </div>
+        </div>
   {{/each}}
-</ul>
+</section>
 </div>
 </div>
+

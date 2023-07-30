@@ -4,9 +4,14 @@
 import express from 'express'
 import passport from 'passport'
 import expressSession from 'express-session'
+import errors from '../../errors.mjs'
 
 
 export default function(services) {
+    if(!services) {
+        throw errors.INVALID_PARAMETER('services')
+    }
+
     const app = express.Router()
 
     app.use(expressSession(
@@ -29,7 +34,7 @@ export default function(services) {
     app.use('/users', verifyAuthenticated)          // Verify authentication middleware
     app.get('/login', loginForm)                    // Get the login form
     app.post('/login', login)                       // Verify login credentials
-    app.post('/logout',logout)                      // logout
+    app.post('/logout', logout)                      // logout
     
     return app
 
@@ -57,6 +62,7 @@ export default function(services) {
     async function login(req, rsp) {
         try {
             const token = await services.validateCredentials(req.body.username, req.body.password)
+            console.log(token)
             if(token) {
                 rsp.cookie('token', token, {
                     maxAge: 900000, // in milliseconds

@@ -1,16 +1,16 @@
 openapi: 3.0.1
 info:
-  title: CMDB API
+  title: FMDB API
   description: This is a simple movies API
   contact:
-    email: you@your-company.com
+    email: frutuoso671@gmail.com
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 servers:
   - description: Localhost server for testing API
-    url: http://localhost:1010/
+    url: http://localhost:8888/
 
 tags:
 - name: Users

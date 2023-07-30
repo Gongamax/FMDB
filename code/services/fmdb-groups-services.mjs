@@ -1,6 +1,6 @@
 import errors from '../errors.mjs'
 
-export default function(fmdbData) {
+export default function(fmdbData, fmdbUsersData) {
     // Validate arguments
     if (!fmdbData) {
         throw errors.INVALID_PARAMETER('usersData or groupsData')
@@ -18,24 +18,13 @@ export default function(fmdbData) {
     }
 
     async function getGroups(userToken, q, limit = Infinity, skip = 0) {
-        limit = Number(limit)
-        skip = Number(skip)
-        if(isNaN(limit) || isNaN(skip)) {
-            throw errors.INVALID_PARAMETER(`skip or limit`)
-        }
-        const user = await fmdbData.getUser(userToken)
-        if(!user) {
-            throw errors.USER_NOT_FOUND()
-        }
+        validateLimitAndSkip(limit, skip)
+        const user = await isValidUser(userToken)
         return fmdbData.getGroups(user.ID, q, limit, skip)
     }
         
     async function getGroup(userToken, groupID) {
-        // Validate taskId
-        const user = await fmdbData.getUser(userToken)
-        if(!user) {
-            throw errors.USER_NOT_FOUND()
-        }
+        const user = await isValidUser(userToken)
         const group = await fmdbData.getGroup(user.ID, groupID)
         if(group) {
             return group
@@ -45,39 +34,24 @@ export default function(fmdbData) {
 
 
     async function getAllGroups(limit = Infinity, skip = 0){
-        limit = Number(limit)
-        skip = Number(skip)
-        if(isNaN(limit) || isNaN(skip)) {
-            throw errors.INVALID_PARAMETER(`skip or limit`)
-        }
+        validateLimitAndSkip(limit, skip)
         return fmdbData.getAllGroups(limit,skip)
     }
 
     async function groupInfo(userToken,groupID,){
-        const user = await fmdbData.getUser(userToken)
-        if(!user) {
-            throw errors.USER_NOT_FOUND()
-        }
+        const user = await isValidUser(userToken)
         return fmdbData.groupInfo(user.ID,groupID)
     }
 
     async function deleteGroup(userToken, groupID) {
-        // Validate taskId
-        const user = await fmdbData.getUser(userToken)
-        //console.log(user)
-        if(!user) {
-            throw errors.USER_NOT_FOUND()
-        }
+        const user = await isValidUser(userToken)
         return fmdbData.deleteGroup(user.ID, groupID)
     }
     
 
     async function createGroup(userToken,name,description) {
         // Validate all task properties
-        const user = await fmdbData.getUser(userToken)
-        if(!user) {
-            throw errors.USER_NOT_FOUND()
-        }
+        const user = await isValidUser(userToken)
         if(!isValidString(userToken,name)) {
              throw errors.INVALID_PARAMETER('name')
         }
@@ -88,11 +62,7 @@ export default function(fmdbData) {
     }
 
     async function updateGroup(userToken, groupID,name,description) {
-        //console.log(`Services groupId : ${groupID}`)
-        const user = await fmdbData.getUser(userToken)
-        if(!user) {
-            throw errors.USER_NOT_FOUND()
-        }
+        const user = await isValidUser(userToken)
         if(!isValidString(userToken,name)) {
             throw errors.INVALID_PARAMETER('name')
         }
@@ -103,11 +73,7 @@ export default function(fmdbData) {
     }
 
     async function deleteMovieFromGroup(userToken,groupID,title){
-        const user = await fmdbData.getUser(userToken)
-        if(!user) {
-            throw errors.USER_NOT_FOUND()
-        }
-        
+        const user = await isValidUser(userToken)
         if(!isValidString(userToken,title)) {
             throw errors.INVALID_PARAMETER('title')
        }
@@ -115,10 +81,7 @@ export default function(fmdbData) {
     }
 
     async function addMovieToGroup(userToken,groupID,movieId){
-        const user = await fmdbData.getUser(userToken)
-        if(!user) {
-            throw errors.USER_NOT_FOUND()
-        }
+        const user = await isValidUser(userToken)
         if(!isValidString(userToken, movieId)) {
             throw errors.INVALID_PARAMETER('movieId')
        }
@@ -131,4 +94,23 @@ export default function(fmdbData) {
         return typeof value == 'string' && value != ""
     }
 
+    async function isValidUser(userToken) {
+        const user = await fmdbUsersData.getUser(userToken)
+        if (!user) {
+            throw errors.USER_NOT_FOUND()
+        }
+        return user
+    }
+
+    function validateLimitAndSkip(limit, skip){
+        limit = Number(limit)
+        skip = Number(skip)
+        if(isNaN(limit) || isNaN(skip) || skip > limit) {
+            console.log(limit, skip)
+            throw errors.INVALID_PARAMETER(`skip or limit`)
+        }
+    }
 }
+
+
+

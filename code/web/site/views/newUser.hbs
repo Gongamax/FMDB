@@ -1,13 +1,8 @@
-<div class="mask" style="background-color: rgba(0, 0, 0, 0.8); height:100vh;">    
+<div class="mask bg-dark" style="height:100vh;">    
 	<div class="container d-flex align-items-center justify-content-center text-center h-100">
 		<div class="text-white">
 			<h1 class="mb-5 text-center"><strong>Create a new user</strong></h1>
 			<form action="/users" method="POST">
-                <div class="form-outline mb-2">
-					<label class="form-label" for="txtEmail">Email address:</label>
-                	<input type="email" id="txtEmail" name="email" class="form-control" />
-                </div>
-
 				<div class="form-outline mb-2">
 					<label class="form-label" for="txtUserName">Username</label>
                 	<input type="text" id="txtUserName" name="username" class="form-control" />
@@ -25,16 +20,5 @@
 		</div>
 	</div>
 </div>
-
-{{!-- <h1><center>{{title}}</center></h1> --}}
-{{!-- <h2>Create a new User</h2> --}}
-{{!-- <form action="/users" method="POST"> --}}
-    {{!-- <p>User name: <input type="text" name="title"></p> --}}
-    {{!-- <p> --}}
-    {{!-- User description: <textarea name="description"> --}}
-    {{!-- </textarea> --}}
-    {{!-- </p> --}}
-    {{!-- <input type="submit" value="Create User"> --}}
-{{!-- </form> --}}
 
 
