@@ -1,69 +1,61 @@
-import fetch from 'node-fetch'
+// Tests for the API
 import request from 'supertest'
-import express from 'express'
+import * as fmdbData from '../data/local/fmdb-data-mem.mjs'
+import * as fmdbMoviesData from '../data/tmdb-movies-data.mjs'
+import * as fmdbUsersData from '../data/local/fmdb-users-data-mem.mjs'
+import fmdbUsersServices from '../services/fmdb-users-services.mjs'
+import fmdbMoviesServices from '../services/fmdb-movies-services.mjs'
+import fmdbGroupServicesInit from '../services/fmdb-groups-services.mjs'
+import fmdbApiInit from '../web/api/fmdb-web-api.mjs'
+import { app } from '../fmdb-server.mjs'
 
-import assert from 'assert'
-import * as cmdbData from '../data/cmdb-data-mem.mjs'
-import * as cmdbMoviesData from '../data/imdb-movies-data.mjs'
-import cmdbServicesInit from '../services/cmdb-services.mjs'
-import cmdbApiInit from '../web/api/cmdb-web-api.mjs'
-import { app } from '../cmdb-server.mjs'
-const cmdbServices = cmdbServicesInit(cmdbMoviesData, cmdbData )
-const cmdbApi = cmdbApiInit(cmdbServices)
+const fmdbGroupServices = fmdbGroupServicesInit(fmdbData, fmdbUsersData)
+const fmdbMovieServices = fmdbMoviesServices(fmdbMoviesData)
+const fmdbUserServices = fmdbUsersServices(fmdbUsersData)
+const fmdbApi = fmdbApiInit(fmdbUserServices,fmdbGroupServices,fmdbMovieServices)
 
+//TO RUN TESTS: npx mocha .\code\test\api-test.mjs
 
 describe('Api tests ',function()  {
 
 	it('create a group ', async function()  {
-        let a = cmdbData.createUser('Ricardo')
-
+        let user = fmdbUserServices.createUser('Ricardo')
 	    const response = await request(app)
-        .post(`/api/users/:${a.ID}/groups`)
-        .set('Authorization', `Bearer ${(await a).token}`)
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(201);
-        
-		
-		
+            .post(`/api/users/:${user.ID}/groups`)
+            .set('Authorization', `Bearer ${(await user).token}`)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(201);
+        		
 	});
     it('delete a group', async function(){
-        let a = cmdbData.createUser('Ricardo')
-        let b = cmdbData.createGroup('b','c',a.ID)
+        let a = fmdbUserServices.createUser('Ricardo')
+        let b = fmdbGroupServices.createGroup('b','c',a.ID)
         const response = request(app)
-        .delete(`/api/users/:${a.ID}/groups/76`)
-        .expect(400)
+            .delete(`/api/users/:${a.ID}/groups/76`)
+            .expect(400)
 
     });
-    
-		
-	
     
     it('get top movies', async function ()  {
 
 		const response = await request(app)
-            .get('/api/topMovies', /*cmdbApi.getTopMovies()*/)
+            .get('/api/topMovies', fmdbApi.getTopMovies())
 			.query('5')
             .expect('Content-Type', /json/)
 			.expect(200)
-            
-        
-		   
-
 	});
-    it('create a group and update', async () => {
-        let a = cmdbData.createUser('Ricardo')
-        let b = cmdbData.createGroup('b','c',a.ID)
     
-   
-        const response2 = await request(app)
+    it('create a group and update', async () => {
+        let a = fmdbUserServices.createUser('Ricardo')
+        let b = fmdbGroupServices.createGroup('b','c',a.ID)
+    
+        const response = await request(app)
 			.put(`/api/users/:${a.ID}/groups/:${b.ID}`)
             .set('Authorization', `Bearer ${(await a).token}`)
 			.set('Accept', 'application/json')
 			.expect('Content-Type', /json/)
 			.expect(200); // or see below
-		
-		
 	});
 
     it('movie by expression', async function(){
@@ -73,7 +65,6 @@ describe('Api tests ',function()  {
            .set('Accept', 'application/json')
 		   .expect('Content-Type', /json/)
            .expect(200)
-
     })
 
     it('create user', async function(){
@@ -83,8 +74,5 @@ describe('Api tests ',function()  {
 		.expect('Content-Type', /json/)
         .send('ricardo')
         .expect(201)
-
-    })
-
-   
+    })   
 });

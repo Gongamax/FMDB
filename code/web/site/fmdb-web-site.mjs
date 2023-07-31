@@ -102,6 +102,7 @@ export default function (fmdbGroupServices, fmdbMovieServices) {
 
     async function createGroup(req, rsp) {
       let newGroup = await fmdbGroupServices.createGroup(req.token,req.body.name, req.body.description)
+      console.log(newGroup)
       rsp.redirect(`/users/${req.token}/groups`)
     }
 
@@ -129,7 +130,6 @@ export default function (fmdbGroupServices, fmdbMovieServices) {
       const limit = req.query.limit ? parseInt(req.query.limit) : 250
       const skip = req.query.skip ? parseInt(req.query.skip) : 0;
       let movies = await fmdbMovieServices.getMovieByExpression(req.query.expression, limit, skip)
-      console.log(movies)
       rsp.render("moviesExpression", { title: `Results for "${req.query.expression}"`,
        movies: movies, loginId: req.cookies.token, limit : limit, skip : skip, expression : req.query.expression})
     }

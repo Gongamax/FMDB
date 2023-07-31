@@ -1,3 +1,5 @@
+  'use strict'
+
 import {del, get, post, put} from '../utils/fetch-wrapper.mjs'
 import fmdbServices from '../../services/fmdb-groups-services.mjs'
 import uriManager from '../utils/uri-manager.mjs'
@@ -53,7 +55,7 @@ export async function createGroup(name, description, userID){
       movies: [],
       user_Id: userID,
       groupId: randomID,
-      Tempo: 0
+      TotalTime: 0
   }
   try{
       // const response = await fetch(baseURL + `groups/_doc/${randomID}?refresh=wait_for`, {
@@ -142,13 +144,13 @@ export async function addMovieToGroup(userID, groupId, movieID) {
         throw errors.USER_NOT_FOUND;
     }
     try {
-      const currentTime = group.Tempo // fetch the current total time
+      const currentTime = group.TotalTime // fetch the current total time
       const updatedTime = currentTime + Number(movie.runtimeMins); // add the runtime of the new movie
       const updatedMovies = [...group.movies, movie]; // create a new movies array with the new movie added to it
       const response = await fetch(baseURL + `groups/_update/${groupId}/`, {
         method: "POST",
         body: JSON.stringify({
-          doc: { movies: updatedMovies, Tempo: updatedTime}, // update the movies array and totalTime field
+          doc: { movies: updatedMovies, TotalTime: updatedTime}, // update the movies array and totalTime field
         }),
         headers: {
           "Content-Type": "application/json",
@@ -169,14 +171,14 @@ export async function deleteMovieFromGroup(userId, groupId, movieId) {
       throw errors.USER_NOT_FOUND;
     }
     const updatedMovies = group.movies.filter(m => m.id !== movieId);
-    const updatedTime = group.Tempo - Number(movie.runtimeMins);
+    const updatedTime = group.TotalTime - Number(movie.runtimeMins);
     try {
       const response = await fetch(baseURL + `groups/_update/${groupId}/`, {
         method: 'POST',
         body: JSON.stringify({
           doc: {
             movies: updatedMovies,
-            Tempo: updatedTime
+            TotalTime: updatedTime
           }
         }),
         headers: {

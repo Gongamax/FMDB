@@ -62,7 +62,6 @@ export default function(services) {
     async function login(req, rsp) {
         try {
             const token = await services.validateCredentials(req.body.username, req.body.password)
-            console.log(token)
             if(token) {
                 rsp.cookie('token', token, {
                     maxAge: 900000, // in milliseconds

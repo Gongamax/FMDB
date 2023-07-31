@@ -62,7 +62,6 @@ export default function (fmdbUsersServices, fmdbGroupServices, fmdbMovieServices
 
     async function createGroupInternal(req, rsp){
         let newGroup = await fmdbGroupServices.createGroup(req.token, req.body.name, req.body.description)
-        console.log(newGroup)
         rsp.status(201)
         return {
             status : `Group with id ${newGroup.groupId} created with sucess`,

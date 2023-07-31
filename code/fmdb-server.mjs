@@ -2,10 +2,10 @@
 // Register all HTTP API routes and starts the server
 
 import express from 'express'
-// import * as fmdbData from './data/local/fmdb-data-mem.mjs'
-// import * as fmdbUsersData from './data/local/fmdb-users-data-mem.mjs'
-import * as fmdbData from './data/db/fmdb-data-elastic.mjs'
-import * as fmdbUsersData from './data/db/fmdb-users-data-elastic.mjs'
+import * as fmdbData from './data/local/fmdb-data-mem.mjs'
+import * as fmdbUsersData from './data/local/fmdb-users-data-mem.mjs'
+// import * as fmdbData from './data/db/fmdb-data-elastic.mjs'
+// import * as fmdbUsersData from './data/db/fmdb-users-data-elastic.mjs'
 import * as fmdbMoviesData from './data/tmdb-movies-data.mjs'
 import fmdbGroupServicesInit from './services/fmdb-groups-services.mjs'
 import fmdbUsersServicesInit from './services/fmdb-users-services.mjs'
@@ -48,8 +48,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 app.set('views', path.join(__dirname, 'web', 'site', 'views'));
 app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/web/site/views/partials');
-app.use(express.static('code/web/site/views')); 
-app.use(express.static(path.join(__dirname, "node_modules/bootstrap/dist/")));
+app.use(express.static(__dirname + 'public')); // Register middleware to serve static files
 
 //Authentication
 app.use("/api",authorizationMw)
@@ -76,7 +75,7 @@ app.post('/users/:userId/groups', fmdbSite.createGroup)
 app.post('/users/:userId/groups/:groupId/addMovie/:movieId', fmdbSite.checkGroupAccess, fmdbSite.addMovieToGroup)
 app.post('/users/:userId/groups/:groupId/update', fmdbSite.checkGroupAccess, fmdbSite.updateGroup)
 
-//api goups
+//api routes
 app.get('/api/:userId/groups', fmdbApi.getGroups)
 app.get('/api/groups', fmdbApi.getAllGroups)
 app.get('/api/users/:userId/groups/:groupId', fmdbApi.getGroup)

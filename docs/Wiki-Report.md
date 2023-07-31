@@ -31,18 +31,18 @@
 
 ## Elastic Search Mapping
 
-The data base uses elastic search and its organized in 2 indices:
+The database uses elastic search and its organized in 2 indices:
   - Users:
 
 In this indice are stored all the data of the user meaning: username, password, userId and token. 
-When creating a new user, a user is going to be added to the data base and first of all, its done a verification
+When creating a new user, a user is going to be added to the database and first of all, its done a verification
 of the user username to check if the name is already being used.
-On the login opeartion its done used the _search method on the data base to check if there is a match on
+On the login opeartion its done used the _search method on the database to check if there is a match on
 username and password info, only allowing log in if the user is created and has matching credentials.
 
   - Groups:
 
-The groups indice stores all data that a group is composed: name, description, movies, user_Id, groupId, Tempo (total time of all movies).
+The groups indice stores all data that a group is composed: name, description, movies, user_Id, groupId, TotalTime (total time of all movies).
 Creating the group is used a PUT method and is created a randomID for the group, the user_Id that is stored on the group info has a high
 importance because its the one used in the relation between a user and his groups.
 To eliminate a movie from the group, its runned a small script to delete a movie from the movies array, just uptading the group itself. So in
@@ -54,17 +54,17 @@ this case its just created a array of movies object instead of creating a index 
 ```YAML 
 openapi: 3.0.1
 info:
-  title: CMDB API
+  title: FMDB API
   description: This is a simple movies API
   contact:
-    email: you@your-company.com
+    email: frutuoso671@gmail.com
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  version: 1.0.0
+  version: 1.0.1
 servers:
   - description: Localhost server for testing API
-    url: http://localhost:1010/
+    url: http://localhost:8888/
 
 tags:
 - name: Users
@@ -596,14 +596,14 @@ needs to run the following commands:
 When all the plug-in's are correctly installed, in order to run the web application just needs to run the program, on the server file
 using the following command : "nodemon .\Parte_1\code\cmdb-server.mjs" and it should pop up a link on the command prompt with the following link: http://localhost:1010/home, now the web site is running.
 
-For the sake of using all the features of the website, the user should decide if wants to use a local memory or elastic search data base, 
+For the sake of using all the features of the website, the user should decide if wants to use a local memory or elastic search database, 
 only chosing one in the cmdb-server module, to make this choice the user needs to change the import, only having one of these two:
 
  -import * as cmdbData from './data/cmdb-data-mem.mjs'
 
  -import * as cmdbData from './data/cmdb-data-elastic.mjs'
 
-If its going to run using elastic search, the data base of the elastic search should be running
+If its going to run using elastic search, the database of the elastic search should be running
 before running the application. You can get the elastic search db in the oficial website and running the bat file.
 
 After all this steps the web site should be running perfectly, enjoy!

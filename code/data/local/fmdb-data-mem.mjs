@@ -1,6 +1,7 @@
 // Module manages application users data.
 // In this specific module, data is stored in memory
-import cmdbServices from '../../services/fmdb-groups-services.mjs'
+import fmdbMovieServices from '../../services/fmdb-movies-services.mjs'
+import { getMovieById } from '../tmdb-movies-data.mjs'
 
 let groups=[]
 let groupId = 0
@@ -25,7 +26,7 @@ export async function createGroup(name,description,userID){
         movies:[],
         user_Id:userID,
         groupId:getNewGroupId(),
-        Tempo: 0 
+        TotalTime: 0 
     }
     groups.push(newGroup)
     return newGroup
@@ -47,7 +48,7 @@ export async function groupInfo(userID,ID){
         Groupname:group[0].Name,
         GroupDescription:group[0].Description,
         MoviesNames:group[0].movies.map(movie => movie.Title),
-        TotalDuration: group[0].Tempo
+        TotalDuration: group[0].TotalTime
     }
     return Info
 }
@@ -59,9 +60,9 @@ export async function deleteGroup(userID,ID){
 
 export async function addMovieToGroup(userID,ID,movieId){
     let groupIdx=groups.findIndex(group=> group.groupId == ID && group.user_Id == userID)
-    let movie= await cmdbServices.getMovieById(movieId)
+    let movie= await getMovieById(movieId)
     groups[groupIdx].movies.push(movie)
-    groups[groupIdx].Tempo += Number(movie.runtimeMins)
+    groups[groupIdx].TotalTime += Number(movie.runtime)
 }
 
 export async function deleteMovieFromGroup(userID, groupID, movieId) {
@@ -70,7 +71,7 @@ export async function deleteMovieFromGroup(userID, groupID, movieId) {
     if (!movie) {
         throw new Error('Movie not found in group');
     }
-    groups[groupIdx].Tempo -= Number(movie.runtimeMins);
+    groups[groupIdx].TotalTime -= Number(movie.runtime);
     groups[groupIdx].movies = groups[groupIdx].movies.filter(m => m.id !== movieId);
 }
 

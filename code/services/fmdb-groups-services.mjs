@@ -106,7 +106,6 @@ export default function(fmdbData, fmdbUsersData) {
         limit = Number(limit)
         skip = Number(skip)
         if(isNaN(limit) || isNaN(skip) || skip > limit) {
-            console.log(limit, skip)
             throw errors.INVALID_PARAMETER(`skip or limit`)
         }
     }
