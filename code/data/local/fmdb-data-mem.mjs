@@ -1,8 +1,5 @@
 // Module manages application users data.
 // In this specific module, data is stored in memory
-import fmdbMovieServices from '../../services/fmdb-movies-services.mjs'
-import { getMovieById } from '../tmdb-movies-data.mjs'
-
 let groups=[]
 let groupId = 0
 
@@ -10,8 +7,11 @@ export async function getGroup(userID,ID){
     return groups.filter(group => group.user_Id==userID).find(group=> group.groupId==ID)
 }
 
-export async function getGroups(userID, limit, skip) {
-    return groups.filter(group => group.user_Id==userID).slice(skip, limit)
+export async function getGroups(userID, q, limit, skip) {
+    const predicate = q ? m => m.title.includes(q) : m => true 
+    const retGroups = groups.filter(group => group.user_Id===userID).filter(predicate)
+    const end = limit != Infinity ? (skip+limit) : groups.length
+    return retGroups.slice(skip, end)
 }
 
 export async function getAllGroups(limit,skip){
@@ -58,21 +58,19 @@ export async function deleteGroup(userID,ID){
     groups.splice(groupIdx,1)  
 }
 
-export async function addMovieToGroup(userID,ID,movieId){
+export async function addMovieToGroup(userID,ID,movie){
     let groupIdx=groups.findIndex(group=> group.groupId == ID && group.user_Id == userID)
-    let movie= await getMovieById(movieId)
     groups[groupIdx].movies.push(movie)
     groups[groupIdx].TotalTime += Number(movie.runtime)
 }
 
-export async function deleteMovieFromGroup(userID, groupID, movieId) {
+export async function deleteMovieFromGroup(userID, groupID, movie) {
     let groupIdx = groups.findIndex(group => group.groupId == groupID && group.user_Id == userID);
-    let movie = groups[groupIdx].movies.find(m => m.id === movieId);
     if (!movie) {
         throw new Error('Movie not found in group');
     }
     groups[groupIdx].TotalTime -= Number(movie.runtime);
-    groups[groupIdx].movies = groups[groupIdx].movies.filter(m => m.id !== movieId);
+    groups[groupIdx].movies = groups[groupIdx].movies.filter(m => m.id !== movie.id);
 }
 
 function getNewGroupId() {

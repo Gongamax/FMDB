@@ -9,7 +9,7 @@ import fmdbGroupServicesInit from '../services/fmdb-groups-services.mjs'
 import fmdbApiInit from '../web/api/fmdb-web-api.mjs'
 import { app } from '../fmdb-server.mjs'
 
-const fmdbGroupServices = fmdbGroupServicesInit(fmdbData, fmdbUsersData)
+const fmdbGroupServices = fmdbGroupServicesInit(fmdbData, fmdbUsersData, fmdbMoviesData)
 const fmdbMovieServices = fmdbMoviesServices(fmdbMoviesData)
 const fmdbUserServices = fmdbUsersServices(fmdbUsersData)
 const fmdbApi = fmdbApiInit(fmdbUserServices,fmdbGroupServices,fmdbMovieServices)

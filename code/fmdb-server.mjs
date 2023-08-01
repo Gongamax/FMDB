@@ -2,10 +2,10 @@
 // Register all HTTP API routes and starts the server
 
 import express from 'express'
-import * as fmdbData from './data/local/fmdb-data-mem.mjs'
-import * as fmdbUsersData from './data/local/fmdb-users-data-mem.mjs'
-// import * as fmdbData from './data/db/fmdb-data-elastic.mjs'
-// import * as fmdbUsersData from './data/db/fmdb-users-data-elastic.mjs'
+// import * as fmdbData from './data/local/fmdb-data-mem.mjs'
+// import * as fmdbUsersData from './data/local/fmdb-users-data-mem.mjs'
+import * as fmdbData from './data/db/fmdb-data-elastic.mjs'
+import * as fmdbUsersData from './data/db/fmdb-users-data-elastic.mjs'
 import * as fmdbMoviesData from './data/tmdb-movies-data.mjs'
 import fmdbGroupServicesInit from './services/fmdb-groups-services.mjs'
 import fmdbUsersServicesInit from './services/fmdb-users-services.mjs'
@@ -23,11 +23,11 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 
-const fmdbGroupServices = fmdbGroupServicesInit(fmdbData,fmdbUsersData)
+const fmdbGroupServices = fmdbGroupServicesInit(fmdbData,fmdbUsersData, fmdbMoviesData)
 const fmdbUserServices = fmdbUsersServicesInit(fmdbUsersData)
 const fmdbMovieServices = fmdbMoviesServicesInit(fmdbMoviesData)
 const fmdbApi = fmdbApiInit(fmdbUserServices, fmdbGroupServices, fmdbMovieServices)
-const fmdbSite = fmdbSiteInit(fmdbGroupServices, fmdbMovieServices)
+const fmdbSite = fmdbSiteInit(fmdbGroupServices, fmdbMovieServices, fmdbUserServices)
 const authRouter = authUiFunction(fmdbUserServices)
 
 const swaggerDocument = yaml.load('./docs/fmdb-api-spec.yaml')

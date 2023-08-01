@@ -1,7 +1,6 @@
   'use strict'
 
 import {del, get, post, put} from '../utils/fetch-wrapper.mjs'
-import fmdbServices from '../../services/fmdb-groups-services.mjs'
 import uriManager from '../utils/uri-manager.mjs'
 import crypto from 'crypto'
 import errors from '../../errors.mjs'
@@ -21,7 +20,7 @@ export async function getGroup(userId, id){
   return get(URI_MANAGER_GROUPS.get(id)).then(body => body._source )
 }
 
-export async function getGroups(userId, q , skip = 0, limit = Infinity) {
+export async function getGroups(userId, q , limit = Infinity, skip = 0) {
     const query = {
         query: {
           match: {
@@ -33,6 +32,7 @@ export async function getGroups(userId, q , skip = 0, limit = Infinity) {
       }
     return post(URI_MANAGER_GROUPS.getAll(), query)
         .then(body =>{
+            console.log(body)
             return body.hits.hits.map(it => {return it._source})
         })
 }
@@ -46,7 +46,6 @@ export async function groupInfo(userID, groupID){
 }
 
 
-
 export async function createGroup(name, description, userID){
   const randomID = crypto.randomUUID().slice(0,16)
   const body = {
@@ -58,23 +57,14 @@ export async function createGroup(name, description, userID){
       TotalTime: 0
   }
   try{
-      // const response = await fetch(baseURL + `groups/_doc/${randomID}?refresh=wait_for`, {
-      // method: 'PUT',
-      // body: JSON.stringify(body),
-      // headers: {
-      //     "Content-Type": "application/json",
-      //     "Accept" : "application/json"}
-      // })
-      // const result = await response.json()
-      // return body
-      return put(URI_MANAGER_GROUPS.get(randomID), body)
+      return put(URI_MANAGER_GROUPS.update(randomID), body).then(() => {return body})
   } catch(error) {
       throw new Error(`Failed to create group: ${response.statusText}`);
   }
 }
 
   export async function updateGroup(userId, id, name, description) {
-    const url = baseURL + `groups/_update/${id}?refresh=wait_for`;
+    const url = baseURL + `${INDEX_NAME}/_update/${id}?refresh=wait_for`;
     let group = await getGroup(userId, id)
     if(group.user_Id !== userId){
         throw new Error('Invalid userID')
@@ -104,7 +94,7 @@ export async function createGroup(name, description, userID){
   
 
 export async function deleteGroup(userId, groupId) {
-    const url = `http://localhost:9200/${INDEX_NAME}/_doc/${groupId}?refresh=wait_for`;
+    const url = baseURL + `${INDEX_NAME}/_doc/${groupId}?refresh=wait_for`;
     // check if userId is valid 
     let group = await getGroup(userId, groupId)
     if (group.user_Id !== userId || typeof userId !== 'string') {
@@ -137,8 +127,7 @@ export async function deleteGroup(userId, groupId) {
 }
 
 
-export async function addMovieToGroup(userID, groupId, movieID) {
-    const movie = await fmdbServices.getMovieById(movieID);
+export async function addMovieToGroup(userID, groupId, movie) {
     let group = await getGroup(userID, groupId);
     if (group.user_Id !== userID) {
         throw errors.USER_NOT_FOUND;
@@ -164,13 +153,12 @@ export async function addMovieToGroup(userID, groupId, movieID) {
     }
   }
 
-export async function deleteMovieFromGroup(userId, groupId, movieId) {
-    const movie = await getMovieById(movieId);
+export async function deleteMovieFromGroup(userId, groupId, movie) {
     let group = await getGroup(userId, groupId);
     if (group.user_Id !== userId) {
       throw errors.USER_NOT_FOUND;
     }
-    const updatedMovies = group.movies.filter(m => m.id !== movieId);
+    const updatedMovies = group.movies.filter(m => m.id !== movie);
     const updatedTime = group.TotalTime - Number(movie.runtimeMins);
     try {
       const response = await fetch(baseURL + `groups/_update/${groupId}/`, {

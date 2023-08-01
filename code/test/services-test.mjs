@@ -8,7 +8,7 @@ import fmdbMoviesServices from '../services/fmdb-movies-services.mjs'
 import fmdbGroupServicesInit from '../services/fmdb-groups-services.mjs'
 import crypto from 'crypto'
 
-const fmdbGroupServices = fmdbGroupServicesInit(fmdbData, fmdbUsersData)
+const fmdbGroupServices = fmdbGroupServicesInit(fmdbData, fmdbUsersData, fmdbMoviesData)
 const fmdbMovieServices = fmdbMoviesServices(fmdbMoviesData)
 const fmdbUserServices = fmdbUsersServices(fmdbUsersData)
 

@@ -47,36 +47,66 @@ async function getAllGenres(){
     return fetchDataFromAPI(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_Key}`, obj => obj.genres)
 }
 
+// Create a global variable to store the genres data for caching
+let cachedGenres = null;
+
+// Fetch all genres and cache them for future use
+async function fetchAndCacheGenres() {
+    if (!cachedGenres) {
+      cachedGenres = await getAllGenres();
+    }
+  }  
+
 async function getMovieGenres(ids){
-    return getAllGenres()
-        .then(genres => genres.filter(g => ids.includes(g.id)).map(g => g.name))
-        .catch(err => processError(err))
+    // Fetch and cache genres if not already cached
+    await fetchAndCacheGenres();
+    // Use the cached genres to filter and map the movie genres
+    return cachedGenres.filter(g => ids.includes(g.id)).map(g => g.name);
 }
 
 
-function processResults(obj, ...optionalParams){
+// function processResults(obj, ...optionalParams){
+//     const [limit, skip = 0] = optionalParams;
+//     let moviesArray = obj.results
+//     let retMovies = moviesArray.map(it => ({
+//         "id": it.id,
+//         "title": it.title,
+//         "rank": moviesArray.indexOf(it) + 1,
+//         "rating": it.vote_average,
+//         "image": API_IMAGE + it.poster_path,
+//         "releaseDate": it.release_date,
+//         "overview": it.overview,
+//         "genres": it.genres ? it.genres.forEach(g => g.name) : getMovieGenres(it.genre_ids)
+//         }))
+//     const end = limit != Infinity ? (skip+limit) : retMovies.length
+//     return retMovies.slice(skip, end)
+// }
+
+async function processResults(obj, ...optionalParams) {
     const [limit, skip = 0] = optionalParams;
-    let moviesArray = obj.results
-    let retMovies = moviesArray.map(it => ({
-        "id": it.id,
-        "title": it.title,
-        "rank": moviesArray.indexOf(it) + 1,
-        "rating": it.vote_average,
-        "image": API_IMAGE + it.poster_path,
-        "releaseDate": it.release_date,
-        "overview": it.overview,
-       // "genres": it.genres ? it.genres.forEach(g => g.name) : getMovieGenres(it.genre_ids)
-        }))
-    const end = limit != Infinity ? (skip+limit) : retMovies.length
-    return retMovies.slice(skip, end)
+    let moviesArray = obj.results;
+  
+    // Fetch and cache genres if not already cached
+    await fetchAndCacheGenres();
+  
+    const genrePromises = moviesArray.map(movie => getMovieGenres(movie.genre_ids));
+    const genresArray = await Promise.all(genrePromises);
+ 
+    const retMovies = moviesArray.map((it, index) => ({
+      "id": it.id,
+      "title": it.title,
+      "rank": moviesArray.indexOf(it) + 1,
+      "rating": it.vote_average,
+      "image": API_IMAGE + it.poster_path,
+      "releaseDate": it.release_date,
+      "overview": it.overview,
+      "genres": genresArray[index]
+    }));
+  
+    const end = limit !== Infinity ? skip + limit : retMovies.length;
+    return retMovies.slice(skip, end);
 }
 
 function processError(error) {
     console.log(`An error occurred ${error} `)
 }
-
-// async function main(){
-//     const a = await getTopMovies(2,0)
-//     console.log(a)
-// }
-// main()

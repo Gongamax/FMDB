@@ -1,3 +1,5 @@
+import errors from '../errors.mjs'
+
 export default function(fmdbUsersData) {
     // Validate arguments
     if (!fmdbUsersData) {

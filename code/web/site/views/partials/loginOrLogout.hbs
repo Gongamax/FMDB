@@ -1,6 +1,6 @@
 {{#if loginId}}
 	<span class="navbar-text font-medium px-2">
-		Welcome, <span id="nav-item-welcome" class="text-warning">user</span>
+		Welcome, <span id="nav-item-welcome" class="text-warning">{{user}}</span>
 	</span>
 	<form method="POST" action="/logout" role="search">
 		<button class="btn btn-outline-light btn-sm" type="submit">Logout</button>

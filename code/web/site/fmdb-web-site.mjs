@@ -4,18 +4,18 @@
 //  - Invoke the corresponding operation on services
 //  - Generate the response in HTML format
 
-import url from 'url'
 import toHttpResponse from '../api/response-errors.mjs'
-import { getUser } from '../../data/db/fmdb-users-data-elastic.mjs';
 import errors from '../../errors.mjs';
 
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-export default function (fmdbGroupServices, fmdbMovieServices) {
+export default function (fmdbGroupServices, fmdbMovieServices, fmdbUsersServices) {
     if(!fmdbGroupServices) {
       throw errors.INVALID_PARAMETER('fmdbGroupServices')
     }
     if(!fmdbMovieServices) {
       throw errors.INVALID_PARAMETER('fmdbMovieServices')
+    }
+    if(!fmdbUsersServices) {
+      throw errors.INVALID_PARAMETER('fmdbUsersServices')
     }
 
     return {
@@ -39,7 +39,7 @@ export default function (fmdbGroupServices, fmdbMovieServices) {
     async function checkGroupAccess(req, res, next) {
       try {
         const token = req.cookies.token
-        const user = await fmdbGroupServices.getUser(token)
+        const user = await fmdbUsersServices.getUser(token)
         const group = await fmdbGroupServices.getGroup(user.token, req.params.groupId);
         if (group.user_Id !== user.ID) {
           return res.status(403).json('You do not have access to this group' );
@@ -49,6 +49,18 @@ export default function (fmdbGroupServices, fmdbMovieServices) {
           return res.status(500).send("An error occurred while checking group access")
       }
     }
+
+    async function getHome(req, rsp){
+      const upcomingMovies = await fmdbMovieServices.getUpcomingMovies(3, 0)
+      const popularMovies = await fmdbMovieServices.getPopularMovies(9, 0)
+      try {
+          const user = await fmdbUsersServices.getUser(req.cookies.token)
+          rsp.render('home', {upcomingMovies: upcomingMovies, popularMovies: popularMovies,loginId: req.cookies.token, user: user.userName})
+      } catch (error) {
+          //ignore error
+          rsp.render('home', {upcomingMovies: upcomingMovies, popularMovies: popularMovies, loginId: req.cookies.token})
+      }
+    }
     
     async function getAllGroups(req,rsp){
       const limit = req.query.limit ? parseInt(req.query.limit) : 10;
@@ -56,13 +68,6 @@ export default function (fmdbGroupServices, fmdbMovieServices) {
       const groups = await fmdbGroupServices.getAllGroups(limit, skip)
       groups.forEach(element => { element.movieId = req.query.movieId });
       rsp.render("groups", { title: 'All groups', groups: groups, loginId: req.cookies.token, limit: limit, skip : skip})
-    }
-
-    async function getHome(req, rsp){
-      const upcomingMovies = await fmdbMovieServices.getUpcomingMovies(3, 0)
-      const popularMovies = await fmdbMovieServices.getPopularMovies(9, 0)
-      const user = await getUser(req.cookies.token).userName
-      rsp.render('home', {home: true, upcomingMovies: upcomingMovies, popularMovies: popularMovies, loginId: req.cookies.token, user: user})
     }
 
     async function getGroups(req, rsp) {
@@ -138,11 +143,6 @@ export default function (fmdbGroupServices, fmdbMovieServices) {
       const movieId = req.params.id
       const movie = await fmdbMovieServices.getMovieById(movieId)
       rsp.render("movie",{ movie: movie, loginId: req.cookies.token}) 
-    }
-
-    function sendFile(fileName, rsp) {
-      const fileLocation = __dirname + 'views/' + fileName
-      rsp.sendFile(fileLocation)
     }
 
     function handleRequest(handler) {

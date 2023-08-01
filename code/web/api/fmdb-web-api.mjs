@@ -40,14 +40,11 @@ export default function (fmdbUsersServices, fmdbGroupServices, fmdbMovieServices
     }
 
     async function getGroupsInternal(req, rsp){
-        const userId = req.params.userId
         let groups = await fmdbGroupServices.getGroups(req.token, 0, req.query.limit, req.query.skip)
-        console.log(groups)
         return groups
     }
 
     async function getUserInternal(req, rsp){
-        const userId = req.params.userId
         return fmdbGroupServices.getUser(req.token)
     }
 

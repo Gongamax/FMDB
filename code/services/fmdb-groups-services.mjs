@@ -1,6 +1,6 @@
 import errors from '../errors.mjs'
 
-export default function(fmdbData, fmdbUsersData) {
+export default function(fmdbData, fmdbUsersData, fmdbMoviesData) {
     // Validate arguments
     if (!fmdbData) {
         throw errors.INVALID_PARAMETER('usersData or groupsData')
@@ -32,7 +32,6 @@ export default function(fmdbData, fmdbUsersData) {
         throw errors.GROUP_NOT_FOUND(groupID)
     }
 
-
     async function getAllGroups(limit = Infinity, skip = 0){
         validateLimitAndSkip(limit, skip)
         return fmdbData.getAllGroups(limit,skip)
@@ -47,7 +46,6 @@ export default function(fmdbData, fmdbUsersData) {
         const user = await isValidUser(userToken)
         return fmdbData.deleteGroup(user.ID, groupID)
     }
-    
 
     async function createGroup(userToken,name,description) {
         // Validate all task properties
@@ -72,20 +70,22 @@ export default function(fmdbData, fmdbUsersData) {
        return fmdbData.updateGroup(user.ID, groupID, name, description)
     }
 
-    async function deleteMovieFromGroup(userToken,groupID,title){
+    async function deleteMovieFromGroup(userToken,groupID, movieId){
         const user = await isValidUser(userToken)
-        if(!isValidString(userToken,title)) {
-            throw errors.INVALID_PARAMETER('title')
-       }
-       return fmdbData.deleteMovieFromGroup(user.ID, groupID,title)
+        if(isNaN(movieId)) {
+            throw errors.INVALID_PARAMETER('movieId')
+        }
+       const movie = await fmdbMoviesData.getMovieById(movieId)
+       return fmdbData.deleteMovieFromGroup(user.ID, groupID, movie)
     }
 
     async function addMovieToGroup(userToken,groupID,movieId){
         const user = await isValidUser(userToken)
-        if(!isValidString(userToken, movieId)) {
+        if(isNaN(movieId)) {
             throw errors.INVALID_PARAMETER('movieId')
-       }
-       return fmdbData.addMovieToGroup(user.ID, groupID,movieId)
+        }
+       const movie = await fmdbMoviesData.getMovieById(movieId)
+       return fmdbData.addMovieToGroup(user.ID, groupID,movie)
     }
 
     // Auxiliary functions
