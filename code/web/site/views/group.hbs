@@ -8,12 +8,12 @@
     <p> - Movies:
         <ul>
             {{#each group.movies}}
-                <p><img src="https://image.tmdb.org/t/p/w500{{poster_path}}" width="60" height="80" alt=""> {{fullTitle}} {{imDbRating}}</p>
-                <form class="d-flex" action="/users/{{../group.user_Id}}/groups/{{../group.groupId}}/deleteMovie/{{id}}" method="POST">
+                <p><img src="https://image.tmdb.org/t/p/w500{{poster_path}}" width="60" height="80" alt=""> {{title}}</p>
+                <form class="d-flex" action="/auth/groups/{{../group.groupId}}/deleteMovie/{{id}}" method="POST">
                 <button class="btn btn-outline-primary mb-3" type="submit">- Delete movie</button>
                 </form>
                 <p class="card-text"><strong>Release Date:</strong> {{release_date}}</p>
-                <p class="card-text"><strong>Run Time:</strong> {{runtimeMins}} minutes</p>
+                <p class="card-text"><strong>Run Time:</strong> {{runtime}} minutes</p>
                 <p class="card-text"><strong>Rating:</strong> {{vote_average}}</p>
                 <p class="card-text"><strong>Overview:</strong> {{overview}}</p>
             {{/each}}

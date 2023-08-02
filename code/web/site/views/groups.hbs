@@ -51,9 +51,23 @@
     <div class="d-flex justify-content-end mb-3">
       <form class="d-flex">
         <label for="limit" class="me-2">Limit:</label>
-        <input type="number" name="limit" id="limit" value="{{limit}}" class="form-control me-2" style="width: 80px;">
+        <input
+          type="number"
+          name="limit"
+          id="limit"
+          value="{{limit}}"
+          class="form-control me-2"
+          style="width: 80px;"
+        />
         <label for="skip" class="me-2">Skip:</label>
-        <input type="number" name="skip" id="skip" value="{{skip}}" class="form-control me-2" style="width: 80px;">
+        <input
+          type="number"
+          name="skip"
+          id="skip"
+          value="{{skip}}"
+          class="form-control me-2"
+          style="width: 80px;"
+        />
         <button type="submit" class="btn btn-outline-primary">Apply</button>
       </form>
     </div>
@@ -63,20 +77,38 @@
         <div class="col">
           <div class="card h-100">
             <div class="card-body">
-              <h2 class="card-title"><a href="/users/{{user_Id}}/groups/{{groupId}}" class="text-decoration-none text-dark">{{Name}}</a></h2>
+              <h2 class="card-title"><a
+                  href="/auth/groups/{{groupId}}"
+                  class="text-decoration-none text-dark"
+                >{{Name}}</a></h2>
               <p class="card-text">Description: {{Description}}</p>
             </div>
             <div class="card-footer d-flex justify-content-between">
               {{#if movieId}}
-                <form class="d-flex" method="post" action="/users/{{user_Id}}/groups/{{groupId}}/addMovie/{{movieId}}">
-                  <button class="btn btn-outline-primary" type="submit">Add movie</button>
+                <form
+                  class="d-flex"
+                  method="post"
+                  action="/auth/groups/{{groupId}}/addMovie/{{movieId}}"
+                >
+                  <button class="btn btn-outline-primary" type="submit">Add
+                    movie</button>
                 </form>
               {{/if}}
-              <form class="d-flex" action="/users/{{user_Id}}/groups/{{groupId}}/delete" method="POST">
-                <button class="btn btn-outline-primary" type="submit">Delete group</button>
+              <form
+                class="d-flex"
+                action="/auth/groups/{{groupId}}/delete"
+                method="POST"
+              >
+                <button class="btn btn-outline-primary" type="submit">Delete
+                  group</button>
               </form>
-              <form class="d-flex" action="/users/{{user_Id}}/groups/{{groupId}}/update" method="GET">
-                <button class="btn btn-outline-primary" type="submit">Update group</button>
+              <form
+                class="d-flex"
+                action="/auth/groups/{{groupId}}/update"
+                method="GET"
+              >
+                <button class="btn btn-outline-primary" type="submit">Update
+                  group</button>
               </form>
             </div>
           </div>

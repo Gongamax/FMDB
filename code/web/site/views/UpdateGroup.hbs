@@ -2,7 +2,7 @@
     <div class="container d-flex align-items-center justify-content-center text-center h-100">
         <div class="text-white">
             <h2 class="mb-5 text-center">Update Group: {{Name}}</h2>
-            <form action="/users/{{userId}}/groups/{{groupId}}/update" method="POST">
+            <form action="/auth/groups/{{group.groupId}}/update" method="POST">
                 <div class="form-outline mb-2">
                     <label class = "form-label" for="txtName">Group's name:</label>
                 	<input type="text" id="txtName" name="name" class="form-control" />
@@ -21,7 +21,7 @@
     </div>
 </div>
 
-<form action="/users/{{userId}}/groups/{{groupId}}/update" method="POST">
+<form action="/auth/groups/{{group.groupId}}/update" method="POST">
     <p>Group name: <input type="text" name="name"></p>
     <p>
     Group description: <textarea name="description">

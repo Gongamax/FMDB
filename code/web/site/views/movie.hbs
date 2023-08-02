@@ -53,7 +53,7 @@
         <img src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" alt="{{movie.title}} Poster" class="img-fluid movie-poster">
       </div>
       <p></p>
-      <form class="d-flex mb-3" role="search" action="/users/{{loginId}}/groups{{search}}">
+      <form class="d-flex mb-3" role="search" action="/auth/groups{{search}}">
         <button class="btn btn-outline-primary" type="search" name="movieId" value="{{movie.id}}">+ Add movie</button>
       </form>
       <p class="card-text"><strong>Release Date:</strong> {{movie.release_date}}</p>

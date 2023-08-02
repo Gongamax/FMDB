@@ -51,11 +51,12 @@ hbs.registerPartials(__dirname + '/web/site/views/partials');
 app.use(express.static(__dirname + 'public')); // Register middleware to serve static files
 
 //Authentication
-app.use("/api",authorizationMw)
+app.use("/api", authorizationMw)
 app.use(authRouter)
 
 // Public routes
 app.get('/home', fmdbSite.getHome)
+app.get('/auth/home', fmdbSite.getHome)
 app.get('/topMovies', fmdbSite.getTopMovies)
 app.get('/movies', fmdbSite.getMovieByExpression)
 app.get('/movies/movie/:id', fmdbSite.getMovieById)
@@ -63,20 +64,20 @@ app.get('/groups', fmdbSite.getAllGroups)
 app.get('/groups/newGroup', fmdbSite.getNewGroup)
 
 // Authenticated routes
-app.get('/users/:userId/groups',fmdbSite.getGroups)
-app.get('/users/:userId/groups/:groupId', fmdbSite.getGroup)
-app.get('/users/:userId/groups/:groupId/update', fmdbSite.getUpdateGroup)
+app.get('/auth/groups',fmdbSite.getGroups)
+app.get('/auth/groups/:groupId', fmdbSite.getGroup)
+app.get('/auth/groups/:groupId/update', fmdbSite.getUpdateGroup)
 app.get('/groups/newGroup', fmdbSite.getNewGroup)
-app.post('/users/:userId/groups/:groupId/delete', fmdbSite.checkGroupAccess, fmdbSite.deleteGroup)
+app.post('/auth/groups/:groupId/delete', fmdbSite.checkGroupAccess, fmdbSite.deleteGroup)
 app.post('/groups/:groupId/:movieId/delete', fmdbSite.checkGroupAccess, fmdbSite.deleteMovieFromGroup)
-app.post('/users/:userId/groups/:groupId/delete', fmdbSite.checkGroupAccess, fmdbSite.deleteGroup)
-app.post('/users/:userId/groups/:groupId/deleteMovie/:movieId', fmdbSite.checkGroupAccess, fmdbSite.deleteMovieFromGroup)
-app.post('/users/:userId/groups', fmdbSite.createGroup) 
-app.post('/users/:userId/groups/:groupId/addMovie/:movieId', fmdbSite.checkGroupAccess, fmdbSite.addMovieToGroup)
-app.post('/users/:userId/groups/:groupId/update', fmdbSite.checkGroupAccess, fmdbSite.updateGroup)
+app.post('/auth/groups/:groupId/delete', fmdbSite.checkGroupAccess, fmdbSite.deleteGroup)
+app.post('/auth/groups/:groupId/deleteMovie/:movieId', fmdbSite.checkGroupAccess, fmdbSite.deleteMovieFromGroup)
+app.post('/auth/groups', fmdbSite.createGroup) 
+app.post('/auth/groups/:groupId/addMovie/:movieId', fmdbSite.checkGroupAccess, fmdbSite.addMovieToGroup)
+app.post('/auth/groups/:groupId/update', fmdbSite.checkGroupAccess, fmdbSite.updateGroup)
 
 //api routes
-app.get('/api/:userId/groups', fmdbApi.getGroups)
+app.get('/api/users/:userId/groups', fmdbApi.getGroups)
 app.get('/api/groups', fmdbApi.getAllGroups)
 app.get('/api/users/:userId/groups/:groupId', fmdbApi.getGroup)
 app.get('/api/users/:userId', fmdbApi.getUser)

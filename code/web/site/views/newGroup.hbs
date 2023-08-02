@@ -1,23 +1,30 @@
 <div class="mask" style="background-color: rgba(0, 0, 0, 0.8); height:100vh;">
-    <div class="container d-flex align-items-center justify-content-center text-center h-100">
-        <div class="text-white">
-            <h2 class="mb-5 text-center">Create a new Group</h2>
-            <form action="/users/{{user}}/groups" method="POST">
-                <div class="form-outline mb-2">
-                    <label class = "form-label" for="txtName">Group's name:</label>
-                	<input type="text" id="txtName" name="name" class="form-control" />
-                </div>
-
-              	<div class="form-outline mb-4">
-                    <label class = "form-label" for="txtDesc">Description:</label>
-                	<textarea class="form-control" id="txtDesc" rows="4" name="description"></textarea>
-                	
-              	</div>
-
-			 	<button type="submit" class="btn btn-primary btn-block mb-4">
-                	Create Group
-            	</button>
-            </form>
+  <div
+    class="container d-flex align-items-center justify-content-center text-center h-100"
+  >
+    <div class="text-white">
+      <h2 class="mb-5 text-center">Create a new Group</h2>
+      <form action="/auth/groups" method="POST">
+        <div class="form-outline mb-2">
+          <label class="form-label" for="txtName">Group's name:</label>
+          <input type="text" id="txtName" name="name" class="form-control" />
         </div>
+
+        <div class="form-outline mb-4">
+          <label class="form-label" for="txtDesc">Description:</label>
+          <textarea
+            class="form-control"
+            id="txtDesc"
+            rows="4"
+            name="description"
+          ></textarea>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block mb-4">
+          Create Group
+        </button>
+      </form>
     </div>
+  </div>
 </div>

@@ -15,13 +15,13 @@
 
 ![App Structure Diagram](./img/App_Struct.png)
 
-1. cmdb-server.mjs - This file contains the main entry point of the server application, where lies the routes.
-2. cmdb-web-api.mjs - The module enables communication between the client and server through JSON responses. This means that all services can be used without a graphical interface by an automated client, like the IMDb API is being used in the imdb-movie-data module. Additionally, it enables the graphical interface to make requests to the server without receiving unneeded information, such as when updating a group or adding/removing movies or groups in the database.
-3. cmdb-web-site.mjs - This file refers to the user interface. It displays only necessary information in a dynamic and fluid manner, making it easier and quicker for the user to access. The HandleBars formatting language ensures dynamism and CSS ensures smoothness, allowing HTML pages to be designed in a way that presents information to the user in the most straightforward way possible.
-4. cmdb-services.mjs - This module is responsible for the internal security of the server and manages communication between various requests (API, web-site) and the database. It must be as reliable as possible to ensure that every request undergoes a thorough check before the data is stored in the internal memory. Failing to do so could lead to corruption of existing information or the introduction of malicious or incorrect information.
-5. imdb-data-movies - This module communicates with the IMDB API, allowing the program to request information such as movie details, searching for specific titles, or displaying the top 250 most well-known films.
-6. cmdb-data-elastic - The data elastic module is the foundation for keeping track of each user's information, enabling the addition and/or removal of groups and movies and updating group information. It also keeps user credentials for validation and new user registration in the database.
-7. cmdb-users-web-site - This module is responsible for all log in and sign up actions. It handles the authentication and authorization of users, enabling them to access their individual information and perform actions such as adding or removing groups and movies. The module ensures that only authorized users have access to the system and that their information is secure.
+1. fmdb-server.mjs - This file contains the main entry point of the server application, where lies the routes.
+2. fmdb-web-api.mjs - The module enables communication between the client and server through JSON responses. This means that all services can be used without a graphical interface by an automated client, like the TMDB API is being used in the imdb-movie-data module. Additionally, it enables the graphical interface to make requests to the server without receiving unneeded information, such as when updating a group or adding/removing movies or groups in the database.
+3. fmdb-web-site.mjs - This file refers to the user interface. It displays only necessary information in a dynamic and fluid manner, making it easier and quicker for the user to access. The HandleBars formatting language ensures dynamism and CSS ensures smoothness, allowing HTML pages to be designed in a way that presents information to the user in the most straightforward way possible.
+4. fmdb-services.mjs - This module is responsible for the internal security of the server and manages communication between various requests (API, web-site) and the database. It must be as reliable as possible to ensure that every request undergoes a thorough check before the data is stored in the internal memory. Failing to do so could lead to corruption of existing information or the introduction of malicious or incorrect information.
+5. tmdb-data-movies - This module communicates with the TMDB API, allowing the program to request information such as movie details, searching for specific titles, or displaying the top most well-known films.
+6. fmdb-data-elastic - The data elastic module is the foundation for keeping track of each user's information, enabling the addition and/or removal of groups and movies and updating group information. It also keeps user credentials for validation and new user registration in the database.
+7. fmdb-users-web-site - This module is responsible for all log in and sign up actions. It handles the authentication and authorization of users, enabling them to access their individual information and perform actions such as adding or removing groups and movies. The module ensures that only authorized users have access to the system and that their information is secure.
 
 
 
@@ -594,14 +594,18 @@ needs to run the following commands:
 "npm install express express-handlebars express-session hbs node-fetch passport morgan cookie-parser cors yamljs nodemon".
 
 When all the plug-in's are correctly installed, in order to run the web application just needs to run the program, on the server file
-using the following command : "nodemon .\Parte_1\code\cmdb-server.mjs" and it should pop up a link on the command prompt with the following link: http://localhost:1010/home, now the web site is running.
+using the following command : "nodemon .\code\fmdb-server.mjs" and it should pop up a link on the command prompt with the following link: http://localhost:8888/home, now the web site is running.
 
 For the sake of using all the features of the website, the user should decide if wants to use a local memory or elastic search database, 
 only chosing one in the cmdb-server module, to make this choice the user needs to change the import, only having one of these two:
-
- -import * as cmdbData from './data/cmdb-data-mem.mjs'
-
- -import * as cmdbData from './data/cmdb-data-elastic.mjs'
+```bash
+import * as fmdbData from './data/local/fmdb-data-mem.mjs'
+import * as fmdbUsersData from './data/local/fmdb-users-data-mem.mjs'
+ ```
+```bash
+import * as fmdbData from './data/db/fmdb-data-elastic.mjs'
+import * as fmdbUsersData from './data/db/fmdb-users-data-elastic.mjs'
+ ```
 
 If its going to run using elastic search, the database of the elastic search should be running
 before running the application. You can get the elastic search db in the oficial website and running the bat file.
