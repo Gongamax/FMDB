@@ -97,7 +97,7 @@ export default function (
       element.movieId = req.query.movieId;
     });
     return new View("groups", {
-      title: "My groups",
+      title: "My Groups",
       groups: groups,
       movieId: req.query.movieId,
       limit: limit,

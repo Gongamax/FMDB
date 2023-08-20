@@ -98,14 +98,14 @@ async function processResults(obj, ...optionalParams) {
   );
   const genresArray = await Promise.all(genrePromises);
 
-  const retMovies = moviesArray.map((it, index) => ({
-    id: it.id,
-    title: it.title,
+  const retMovies = moviesArray.map((movie, index) => ({
+    id: movie.id,
+    title: movie.title,
     rank: index + 1,
-    rating: it.vote_average,
-    image: API_IMAGE + it.poster_path,
-    releaseDate: it.release_date,
-    overview: it.overview,
+    rating: movie.vote_average,
+    image: API_IMAGE + movie.poster_path,
+    releaseDate: movie.release_date,
+    overview: movie.overview,
     genres: genresArray[index],
   }));
 

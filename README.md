@@ -49,4 +49,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Contact
 
-For any questions or inquiries, please contact [frutuoso671@gmail.com].
+For any questions or inquiries, please contact [frutuoso671@gmail.com](mailto:frutuoso671@gmail.com).

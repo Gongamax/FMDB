@@ -48,7 +48,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 app.set('views', path.join(__dirname, 'web', 'site', 'views'));
 app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/web/site/views/partials');
-app.use(express.static(__dirname + 'public')); // Register middleware to serve static files
+app.use(express.static(__dirname + 'web/site/public')); // Register middleware to serve static files
 
 //Authentication
 app.use("/api", authorizationMw)

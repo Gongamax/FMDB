@@ -1,50 +1,4 @@
-{{!-- <div class="mask" style="background-color: rgba(0, 0, 0, 0.8); min-height: 100vh; max-height:fit-content;">
-<div class="text-white">
-<h1><center>{{title}}</center></h1>
-<div style="float: right;">
-<form style="margin-right: 5px;">
-  <label for="limit">Limit:</label>
-  <input type="number" name="limit" id="limit" value="{{limit}}">
-  <label for="skip">Skip:</label>
-  <input type="number" name="skip" id="skip" value="{{skip}}">
-  <button type="submit" class="btn btn-outline-primary">Apply</button>
-  </form>
-</div>
-
-<ul>
-  {{#each groups}}
-    <li>
-      <h2><a href="/users/{{user_Id}}/groups/{{groupId}}">{{Name}}</a></h2>
-      <p>Description: {{Description}}</p>
-      <div class="row d-flex ">
-        <div class="col-md-4">
-          <div class="row mb-4">
-            {{#if movieId}}
-              <div class="col">
-                <form class="d-flex" method="post" action="/users/{{user_Id}}/groups/{{groupId}}/addMovie/{{movieId}}">
-                  <button class="btn btn-outline-primary" type="submit">Add movie</button>
-                </form>
-              </div>
-            {{/if}}
-            <div class="col">
-              <form class="d-flex" action="/users/{{user_Id}}/groups/{{groupId}}/delete" method="POST">
-                <button class="btn btn-outline-primary" type="submit">Delete group</button>
-              </form>
-            </div>
-            <div class="col">
-              <form class="d-flex" action="/users/{{user_Id}}/groups/{{groupId}}/update" method="GET">
-                <button class="btn btn-outline-primary" type="submit">Update group</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>  
-    </li>
-  {{/each}}
-</ul>
-</div>
-</div> --}}
-
+{{!-- 
 <div class="mask bg-dark text-white py-5" style="min-height: 100vh;">
   <div class="container">
     <h1 class="text-center">{{title}}</h1>
@@ -109,6 +63,78 @@
               >
                 <button class="btn btn-outline-primary" type="submit">Update
                   group</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</div> --}}
+<div class="mask bg-dark text-white py-5" style="min-height: 100vh;">
+  <div class="container my-5">
+    <h1 class="text-center">{{title}}</h1>
+    <div class="row justify-content-end mt-3">
+      <div class="col-md-4">
+        <form class="d-flex">
+          <label for="limit" class="me-2">Limit:</label>
+          <input
+            type="number"
+            name="limit"
+            id="limit"
+            value="{{limit}}"
+            class="form-control me-2"
+          />
+          <label for="skip" class="me-2">Skip:</label>
+          <input
+            type="number"
+            name="skip"
+            id="skip"
+            value="{{skip}}"
+            class="form-control me-2"
+          />
+          <button type="submit" class="btn btn-primary">Apply</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+      {{#each groups}}
+        <div class="col">
+          <div class="card h-100 shadow">
+            <div class="card-body">
+              <h2 class="card-title mb-3"><a
+                  href="/auth/groups/{{groupId}}"
+                  class="text-decoration-none text-dark"
+                >{{Name}}</a></h2>
+              <p class="card-text mb-4">Description: {{Description}}</p>
+            </div>
+            <div class="card-footer bg-white d-flex justify-content-between">
+              {{#if movieId}}
+                <form
+                  class="d-flex"
+                  method="post"
+                  action="/auth/groups/{{groupId}}/addMovie/{{movieId}}"
+                >
+                  <button class="btn btn-outline-primary" type="submit">Add
+                    Movie</button>
+                </form>
+              {{/if}}
+              <form
+                class="d-flex"
+                action="/auth/groups/{{groupId}}/delete"
+                method="POST"
+              >
+                <button class="btn btn-outline-danger" type="submit">Delete
+                  Group</button>
+              </form>
+              <form
+                class="d-flex"
+                action="/auth/groups/{{groupId}}/update"
+                method="GET"
+              >
+                <button class="btn btn-outline-primary" type="submit">Update
+                  Group</button>
               </form>
             </div>
           </div>

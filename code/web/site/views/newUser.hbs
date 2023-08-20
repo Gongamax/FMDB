@@ -3,7 +3,7 @@
 		<div class="text-white">
 			<h1 class="mb-5 text-center"><strong>Create a new user</strong></h1>
 			<form action="/register" method="POST">
-				<div class="form-outline mb-2">
+				<div class="form-outline mb-4">
 					<label class="form-label" for="txtUserName">Username</label>
                 	<input type="text" id="txtUserName" name="username" class="form-control" />
               	</div>
@@ -11,6 +11,11 @@
               	<div class="form-outline mb-4">
 					<label class="form-label" for="txtPassword">Password</label>
                 	<input type="password" id="txtPassword" name="password" class="form-control" />
+              	</div>
+
+				<div class="form-outline mb-4">
+					<label class="form-label" for="txtPassword">Confirm Password</label>
+                	<input type="password" id="txtPassword" name="confirm password" class="form-control" />
               	</div>
 
 			 	<button type="submit" class="btn btn-primary btn-block mb-4">

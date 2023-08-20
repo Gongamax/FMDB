@@ -1,4 +1,5 @@
 import errors from "../errors.mjs";
+import bcrypt from "bcrypt";
 
 export default function (fmdbUsersData) {
   // Validate arguments
@@ -41,7 +42,13 @@ export default function (fmdbUsersData) {
   }
 
   async function createUser(username, password) {
-    return fmdbUsersData.createUser(username, password);
+    try {
+      const hashPassword = await bcrypt.hash(password, 10);
+      return fmdbUsersData.createUser(username, hashPassword);
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
   }
 
   async function validateUser(username, password) {
@@ -64,10 +71,10 @@ export default function (fmdbUsersData) {
       if (user == null) {
         return errors.USER_NOT_FOUND;
       }
-      if (user.password != password) {
-        return null;
+      if (await bcrypt.compare(password, user.password)) {
+        return user;
       }
-      return user;
+      return null;
     } catch (e) {
       return null;
     }
