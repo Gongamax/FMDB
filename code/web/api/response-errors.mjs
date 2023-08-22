@@ -21,7 +21,7 @@ export default function (e) {
     default:
       return new HttpErrorResponse(
         HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
-        "Internal error. Contact you teacher!"
+        "Internal error. Something went wrong!"
       );
   }
 }

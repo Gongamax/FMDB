@@ -10,6 +10,7 @@ export default function (fmdbUsersData) {
   return {
     getUser: getUser,
     createUser: createUser,
+    signUp: signUp,
     validateUser: validateUser,
     getUserInLogin,
     getUserInLogin,
@@ -41,14 +42,21 @@ export default function (fmdbUsersData) {
     return user;
   }
 
-  async function createUser(username, password) {
+  async function createUser(username, password, email) {
     try {
       const hashPassword = await bcrypt.hash(password, 10);
-      return fmdbUsersData.createUser(username, hashPassword);
+      return fmdbUsersData.createUser(username, hashPassword, email);
     } catch (error) {
       console.log(error);
       return null;
     }
+  }
+
+  async function signUp(username, password, confirmPassword, email) {
+    if (password != confirmPassword) {
+      throw errors.PASSWORDS_DO_NOT_MATCH();
+    }
+    return createUser(username, password, email);
   }
 
   async function validateUser(username, password) {
@@ -69,7 +77,7 @@ export default function (fmdbUsersData) {
     try {
       const user = await fmdbUsersData.getUserByUsername(username);
       if (user == null) {
-        return errors.USER_NOT_FOUND;
+        throw errors.USER_NOT_FOUND;
       }
       if (await bcrypt.compare(password, user.password)) {
         return user;

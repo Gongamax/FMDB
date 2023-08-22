@@ -26,7 +26,7 @@ export default function (fmdbUsersServices, fmdbGroupServices, fmdbMovieServices
     }  
 
     async function createUserInternal(req, rsp){
-        let newUser = await fmdbUsersServices.createUser(req.body.username, req.body.password)
+        let newUser = await fmdbUsersServices.createUser(req.body.username, req.body.password, req.body.email)
         rsp.json(newUser).status(201)
         return{
                 status : `User id ${newUser.ID} created with success`,

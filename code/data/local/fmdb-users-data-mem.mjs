@@ -3,10 +3,11 @@ import crypto from "crypto";
 const users = [];
 let userId = 0;
 
-export async function createUser(username, password) {
+export async function createUser(username, password, email) {
   let newUser = {
-    userName: `${username}`,
+    username: `${username}`,
     password: `${password}`,
+    email : `${email}`,
     ID: getNewUserId(),
     token: crypto.randomUUID(),
   };
@@ -20,7 +21,7 @@ export async function getUser(userToken) {
 
 export async function getUserInLogin(username, password) {
   return users.find(
-    (user) => user.userName == username && user.password == password
+    (user) => user.username == username && user.password == password
   );
 }
 
@@ -29,7 +30,7 @@ export async function getUserByToken(token) {
 }
 
 export async function getUserByUsername(username) {
-  return getUserBy("userName", username);
+  return getUserBy("username", username);
 }
 
 async function getUserBy(propName, value) {

@@ -29,4 +29,10 @@ export default {
       message: `User already exists`,
     };
   },
+  PASSWORDS_DO_NOT_MATCH: () => {
+    return {
+      code: 6,
+      message: `Passwords do not match`,
+    };
+  }
 };

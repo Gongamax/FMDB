@@ -49,9 +49,25 @@ export default function (services) {
 
   function signUp(req, rsp) {
     services
-      .createUser(req.body.username, req.body.password)
+      .signUp(
+        req.body.username,
+        req.body.password,
+        req.body.confirmPassword,
+        req.body.email
+      )
       .then(() => loginForm(req, rsp))
-      .catch((error) => rsp.render("newUser"));
+      .catch((error) => {
+        switch (error.code) {
+          case 5:
+            rsp.render("newUser", { error: "User already exists" });
+            break;
+          case 6:
+            rsp.render("newUser", { error: "Passwords do not match" });
+            break;
+          default:
+            rsp.render("newUser");
+        }
+      });
   }
 
   function loginForm(req, rsp) {
@@ -72,13 +88,13 @@ export default function (services) {
         });
         req.login(
           {
-            username: user.userName,
+            username: user.username,
             token: user.token,
           },
           () => rsp.redirect(`/auth/home`)
         );
       } else {
-        rsp.redirect("/login");
+        rsp.render("login", { error: "Invalid credentials" });
       }
     } catch (err) {
       console.log(err);
@@ -90,3 +106,6 @@ export default function (services) {
     req.logout((err) => rsp.redirect("/home"));
   }
 }
+
+
+  
