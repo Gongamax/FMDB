@@ -10,48 +10,48 @@
             <div class="card-body p-5">
               <h2 class="text-uppercase text-center mb-5">Create an account</h2>
               <form action="/register" method="POST">
-                <div class="form-outline mb-4">
+                <div class="form-floating mb-4">
                   <input
                     type="text"
                     id="username"
                     name="username"
                     class="form-control my-3 py-2"
-                    placeholder="Your Name"
-                    aria-label="Your Name"
+                    placeholder="Username"
                   />
+                  <label class="text-muted" for="floatingUsername">Your Name</label>
                 </div>
 
-                <div class="form-outline mb-4">
+                <div class="form-floating mb-4">
                   <input
                     type="email"
                     name="email"
                     id="form3Example3cg"
                     class="form-control my-3 py-2"
                     placeholder="Your Email"
-                    aria-label="Your Email"
                   />
+                  <label class="text-muted" for="floatingEmail">Your Email</label>
                 </div>
 
-                <div class="form-outline mb-4">
+                <div class="form-floating mb-4">
                   <input
                     type="password"
                     name="password"
                     id="password"
                     class="form-control my-3 py-2"
                     placeholder="Password"
-                    aria-label="Password"
                   />
+                  <label class="text-muted" for="floatingPassword">Password</label>
                 </div>
 
-                <div class="form-outline mb-4">
+                <div class="form-floating mb-4">
                   <input
                     type="password"
                     id="confirmPassword"
                     name="confirmPassword"
                     class="form-control my-3 py-2"
-                    placeholder="Repeat your Password"
-                    aria-label="Repeat your Password"
+                    placeholder="Repeat your password"  
                   />
+                  <label class="text-muted" for="floatingPassword">Repeat your Password</label>
                 </div>
 
                 <div class="form-check d-flex justify-content-center mb-5">

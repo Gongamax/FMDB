@@ -1,81 +1,18 @@
-{{!-- 
-<div class="mask bg-dark text-white py-5" style="min-height: 100vh;">
-  <div class="container">
-    <h1 class="text-center">{{title}}</h1>
-    <div class="d-flex justify-content-end mb-3">
-      <form class="d-flex">
-        <label for="limit" class="me-2">Limit:</label>
-        <input
-          type="number"
-          name="limit"
-          id="limit"
-          value="{{limit}}"
-          class="form-control me-2"
-          style="width: 80px;"
-        />
-        <label for="skip" class="me-2">Skip:</label>
-        <input
-          type="number"
-          name="skip"
-          id="skip"
-          value="{{skip}}"
-          class="form-control me-2"
-          style="width: 80px;"
-        />
-        <button type="submit" class="btn btn-outline-primary">Apply</button>
-      </form>
-    </div>
-
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-      {{#each groups}}
-        <div class="col">
-          <div class="card h-100">
-            <div class="card-body">
-              <h2 class="card-title"><a
-                  href="/auth/groups/{{groupId}}"
-                  class="text-decoration-none text-dark"
-                >{{Name}}</a></h2>
-              <p class="card-text">Description: {{Description}}</p>
-            </div>
-            <div class="card-footer d-flex justify-content-between">
-              {{#if movieId}}
-                <form
-                  class="d-flex"
-                  method="post"
-                  action="/auth/groups/{{groupId}}/addMovie/{{movieId}}"
-                >
-                  <button class="btn btn-outline-primary" type="submit">Add
-                    movie</button>
-                </form>
-              {{/if}}
-              <form
-                class="d-flex"
-                action="/auth/groups/{{groupId}}/delete"
-                method="POST"
-              >
-                <button class="btn btn-outline-primary" type="submit">Delete
-                  group</button>
-              </form>
-              <form
-                class="d-flex"
-                action="/auth/groups/{{groupId}}/update"
-                method="GET"
-              >
-                <button class="btn btn-outline-primary" type="submit">Update
-                  group</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      {{/each}}
-    </div>
-  </div>
-</div> --}}
 <div class="mask bg-dark text-white py-5" style="min-height: 100vh;">
   <div class="container my-5">
     <h1 class="text-center">{{title}}</h1>
-    <div class="row justify-content-end mt-3">
-      <div class="col-md-4">
+    <div class="row justify-content-end mt-3 pt-3">
+      <div class="col">
+        <button
+          type="button"
+          class="btn btn-warning me-2 btn-lg"
+          data-bs-toggle="modal"
+          data-bs-target="#modalCreateGroup"
+        >
+          Create Group
+        </button>
+      </div>
+      <div class="col-md-4 d-flex align-items-center">
         <form class="d-flex">
           <label for="limit" class="me-2">Limit:</label>
           <input
@@ -128,17 +65,126 @@
                 <button class="btn btn-outline-danger" type="submit">Delete
                   Group</button>
               </form>
-              <form
-                class="d-flex"
-                action="/auth/groups/{{groupId}}/update"
-                method="GET"
+              <button
+                class="btn btn-outline-primary"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#modalUpdateGroup{{groupId}}"
               >
-                <button class="btn btn-outline-primary" type="submit">Update
-                  Group</button>
+                Update Group
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="modal fade"
+          id="modalUpdateGroup{{groupId}}"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="modalUpdateGroupLabel{{groupId}}"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-notify modal-warning" role="document">
+            <div class="modal-content text-black">
+              <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Update Group:
+                  {{Name}}</h4>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <form action="/auth/groups/{{groupId}}/update" method="POST">
+                <div class="modal-body mx-3">
+                  <div class="md-form mb-5">
+                    <i class="fas fa-envelope prefix grey-text"></i>
+                    <input
+                      type="text"
+                      id="txtName"
+                      name="name"
+                      class="form-control validate"
+                      placeholder="New Name"
+                      aria-label="New Name"
+                    />
+                  </div>
+
+                  <div class="md-form mb-4">
+                    <i class="fas fa-lock prefix grey-text"></i>
+                    <input
+                      type="description"
+                      name="description"
+                      id="defaultForm-pass"
+                      class="form-control validate"
+                      placeholder="New description"
+                      aria-label="New description"
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                  <button type="submit" class="btn btn-warning">Update Group</button>
+                </div>
               </form>
             </div>
           </div>
         </div>
+
+        <div
+          class="modal fade"
+          id="modalCreateGroup"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="modalCreateGroupLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-notify modal-warning" role="document">
+            <div class="modal-content text-black">
+              <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Create a New
+                  Group</h4>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <form action="/auth/groups" method="POST">
+                <div class="modal-body mx-3">
+                  <div class="md-form mb-5">
+                    <i class="fas fa-envelope prefix grey-text"></i>
+                    <input
+                      type="text"
+                      id="txtGroupName"
+                      name="name"
+                      class="form-control validate"
+                      placeholder="Group's Name"
+                      aria-label="Group's Name"
+                    />
+                  </div>
+
+                  <div class="md-form mb-4">
+                    <i class="fas fa-lock prefix grey-text"></i>
+                    <textarea
+                      class="form-control"
+                      id="txtGroupDescription"
+                      rows="4"
+                      name="description"
+                      placeholder="Description"
+                      aria-label="Description"
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                  <button type="submit" class="btn btn-warning">Create Group</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
       {{/each}}
     </div>
   </div>

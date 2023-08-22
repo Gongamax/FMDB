@@ -36,7 +36,6 @@ export async function getGroups(userId, q, limit = Infinity, skip = 0) {
 
 export async function groupInfo(userID, groupID) {
   const result = get(URI_MANAGER.get(groupID))
-    .then((rsp) => rsp.json())
     .then((body) => body._source);
   console.log(result);
 }

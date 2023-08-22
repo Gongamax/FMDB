@@ -5,8 +5,7 @@ let groupId = 0;
 
 export async function getGroup(userID, ID) {
   return groups
-    .filter((group) => group.user_Id == userID)
-    .find((group) => group.groupId == ID);
+    .find((group) => group.groupId == ID && group.user_Id == userID);
 }
 
 export async function getGroups(userID, q, limit, skip) {
@@ -47,7 +46,9 @@ export async function updateGroup(userID, ID, name, description) {
 }
 
 export async function groupInfo(userID, ID) {
-  let group = groups.filter((group) => group.user_Id == userID && group.groupId == ID);
+  let group = groups.filter(
+    (group) => group.user_Id == userID && group.groupId == ID
+  );
   let Info = {
     Groupname: group[0].Name,
     GroupDescription: group[0].Description,
@@ -58,18 +59,24 @@ export async function groupInfo(userID, ID) {
 }
 
 export async function deleteGroup(userID, ID) {
-  let groupIdx = groups.findIndex((group) => group.groupId == ID && group.user_Id == userID);
+  let groupIdx = groups.findIndex(
+    (group) => group.groupId == ID && group.user_Id == userID
+  );
   groups.splice(groupIdx, 1);
 }
 
 export async function addMovieToGroup(userID, ID, movie) {
-  let groupIdx = groups.findIndex((group) => group.groupId == ID && group.user_Id == userID);
+  let groupIdx = groups.findIndex(
+    (group) => group.groupId == ID && group.user_Id == userID
+  );
   groups[groupIdx].movies.push(movie);
   groups[groupIdx].TotalTime += Number(movie.runtime);
 }
 
 export async function deleteMovieFromGroup(userID, groupID, movie) {
-  let groupIdx = groups.findIndex((group) => group.groupId == groupID && group.user_Id == userID);
+  let groupIdx = groups.findIndex(
+    (group) => group.groupId == groupID && group.user_Id == userID
+  );
   if (!movie) {
     throw new Error("Movie not found in group");
   }
