@@ -1,13 +1,28 @@
 import crypto from "crypto";
 
-const users = [];
-let userId = 0;
+const users = [
+  {
+    ID: 0,
+    username: "User1",
+    password: "1234",
+    email: "test@example.pt",
+    token: "0b115b6e-8fcd-4b66-ac26-33392dcb9340",
+  },
+  {
+    ID: 1,
+    username: "User2",
+    password: "1234",
+    email: "test@example.pt",
+    token: "3dfd8596-cfd3-431d-8e36-f0fc4c64f364",
+  },
+];
+let nextId = 2;
 
 export async function createUser(username, password, email) {
   let newUser = {
     username: `${username}`,
     password: `${password}`,
-    email : `${email}`,
+    email: `${email}`,
     ID: getNewUserId(),
     token: crypto.randomUUID(),
   };
@@ -42,5 +57,5 @@ async function getUserBy(propName, value) {
 }
 
 function getNewUserId() {
-  return userId++;
+  return nextId++;
 }

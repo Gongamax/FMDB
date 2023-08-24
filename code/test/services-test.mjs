@@ -183,6 +183,6 @@ describe("CMDB services", function () {
 //Helper function
 
 async function createUserTest() {
-  const newUser = await fmdbUserServices.createUser("Test");
+  const newUser = await fmdbUserServices.createUser("Test", "1234", "test");
   return newUser.token;
 }
