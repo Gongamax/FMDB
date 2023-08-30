@@ -2,7 +2,11 @@
 
 FMDB is a movie database web application that allows users to search for movies, create groups, and manage their favorite movies in those groups. The application uses the TMDb (The Movie Database) API to fetch movie information, and it is built using Node.js, Express.js, Handlebars, and Bootstrap 5.
 
-![FMDB Screenshot](./docs/img/homePrint.png) <!-- Add a screenshot of your app here -->
+![FMDB Screenshot](./docs/img/homePrint.png) 
+![Movie Screenshot](./docs/img/movie-example.png)
+![Groups Screenshot](./docs/img/groups-example.png)
+![Group Screenshot](./docs/img/group-information-example.png)
+![Register Form Screenshit](./docs/img/register-form.png)
 
 ## Features
 
@@ -35,9 +39,9 @@ API_KEY=your_tmdb_api_key_here
 
 Contributions to FMDB are welcome! If you find any issues or have ideas for improvements, feel free to open an issue or submit a pull request.
 
-## Disclaimer
+## Future Improvements
 
-The project is still under development specially in terms of Front End. 
+Comment section for each movie, having my own database for the movies.
 
 ## License
 

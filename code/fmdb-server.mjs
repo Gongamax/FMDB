@@ -57,17 +57,15 @@ app.use(authRouter)
 // Public routes
 app.get('/home', fmdbSite.getHome)
 app.get('/auth/home', fmdbSite.getHome)
+app.get('/about', fmdbSite.getAbout)
 app.get('/topMovies', fmdbSite.getTopMovies)
 app.get('/movies', fmdbSite.getMovieByExpression)
 app.get('/movies/movie/:id', fmdbSite.getMovieById)
 app.get('/groups', fmdbSite.getAllGroups)
-app.get('/groups/newGroup', fmdbSite.getNewGroup)
 
 // Authenticated routes
 app.get('/auth/groups',fmdbSite.getGroups)
 app.get('/auth/groups/:groupId', fmdbSite.getGroup)
-app.get('/auth/groups/:groupId/update', fmdbSite.getUpdateGroup)
-app.get('/groups/newGroup', fmdbSite.getNewGroup)
 app.post('/auth/groups/:groupId/delete', fmdbSite.checkGroupAccess, fmdbSite.deleteGroup)
 app.post('/groups/:groupId/:movieId/delete', fmdbSite.checkGroupAccess, fmdbSite.deleteMovieFromGroup)
 app.post('/auth/groups/:groupId/delete', fmdbSite.checkGroupAccess, fmdbSite.deleteGroup)
@@ -77,17 +75,17 @@ app.post('/auth/groups/:groupId/addMovie/:movieId', fmdbSite.checkGroupAccess, f
 app.post('/auth/groups/:groupId/update', fmdbSite.checkGroupAccess, fmdbSite.updateGroup)
 
 //api routes
-app.get('/api/users/:userId/groups', fmdbApi.getGroups)
-app.get('/api/groups', fmdbApi.getAllGroups)
-app.get('/api/users/:userId/groups/:groupId', fmdbApi.getGroup)
+app.get('/api/groups', fmdbApi.getGroups)
+app.get('/api/groups/all', fmdbApi.getAllGroups)
+app.get('/api/groups/:groupId', fmdbApi.getGroup)
 app.get('/api/users/:userId', fmdbApi.getUser)
 app.get('/api/topMovies', fmdbApi.getTopMovies)
 app.get('/api/movies/:expression', fmdbApi.getMovieByExpression)
-app.delete('/api/users/:userId/groups/:groupId', fmdbApi.deleteGroup)
+app.delete('/api/groups/:groupId', fmdbApi.deleteGroup)
 app.delete('/api/groups/:groupId/:movieId', fmdbApi.deleteMovieFromGroup)
-app.post('/api/users/:userId/groups', fmdbApi.createGroup)
+app.post('/api/groups', fmdbApi.createGroup)
 app.post('/api/users', fmdbApi.createUser)
-app.put('/api/users/:userId/groups/:groupId', fmdbApi.updateGroup)
+app.put('/api/groups/:groupId', fmdbApi.updateGroup)
 app.put('/api/groups/:groupId/:movieId', fmdbApi.addMovieToGroup)
 
 
@@ -98,7 +96,7 @@ console.log("End setting up server")
 // Route handling functions
 
 function authorizationMw(req, rsp, next) {
-    //console.log('authorizationMw', req.get('Authorization'))
+    console.log('authorizationMw', req.get('Authorization'))
     if(req.get('Authorization')){
             req.user = {
             token: req.get('Authorization').split(' ')[1]

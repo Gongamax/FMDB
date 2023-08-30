@@ -3,7 +3,13 @@ import errors from "../errors.mjs";
 export default function (fmdbData, fmdbUsersData, fmdbMoviesData) {
   // Validate arguments
   if (!fmdbData) {
-    throw errors.INVALID_PARAMETER("usersData or groupsData");
+    throw errors.INVALID_PARAMETER("groupsData");
+  }
+  if (!fmdbUsersData) {
+    throw errors.INVALID_PARAMETER("usersData");
+  }
+  if (!fmdbMoviesData) {
+    throw errors.INVALID_PARAMETER("moviesData");
   }
   return {
     getGroups: getGroups,
@@ -26,10 +32,10 @@ export default function (fmdbData, fmdbUsersData, fmdbMoviesData) {
   async function getGroup(userToken, groupID) {
     const user = await isValidUser(userToken);
     const group = await fmdbData.getGroup(user.ID, groupID);
-    if (group) {
-      return group;
+    if (!group) {
+      throw errors.GROUP_NOT_FOUND(groupID);
     }
-    throw errors.GROUP_NOT_FOUND(groupID);
+    return group;
   }
 
   async function getAllGroups(limit = Infinity, skip = 0) {

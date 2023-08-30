@@ -8,7 +8,16 @@ import toHttpResponse from './response-errors.mjs'
 
 
 export default function (fmdbUsersServices, fmdbGroupServices, fmdbMovieServices) {
-    // Validate argument
+    // Validate arguments
+    if (!fmdbUsersServices) {
+        errors.INVALID_PARAMETER("usersServices")
+    }
+    if (!fmdbGroupServices) {
+        errors.INVALID_PARAMETER("groupsServices")
+    }
+    if (!fmdbMovieServices) {
+        errors.INVALID_PARAMETER("moviesServices")
+    }
     return {
         createUser: createUserInternal,
         getGroup: handleRequest(getGroupInternal),

@@ -1,3 +1,5 @@
+"use strict";
+
 import crypto from "crypto";
 import errors from "../../errors.mjs";
 import { get, post } from "../utils/fetch-wrapper.mjs";

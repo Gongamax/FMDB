@@ -83,6 +83,9 @@ export async function deleteGroup(userId, groupId) {
 export async function addMovieToGroup(userID, groupId, movie) {
   let group = await getGroup(userID, groupId);
   try {
+    if (group.movies.find((m) => m.id == movie.id)) {
+      throw new Error("Movie already exists in group")
+    }
     group.movies.push(movie);
     group.TotalTime += Number(movie.runtime);
     return put(URI_MANAGER.update(groupId), group).then(() => {

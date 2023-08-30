@@ -25,11 +25,10 @@ export default function (
   return {
     checkGroupAccess: checkGroupAccess,
     getHome: handleRequest(getHome),
+    getAbout: handleRequest(getAbout),
     getAllGroups: handleRequest(getAllGroups),
     getGroup: handleRequest(getGroup),
     getGroups: handleRequest(getGroups),
-    getNewGroup: handleRequest(getNewGroup),
-    getUpdateGroup: handleRequest(getUpdateGroup),
     addMovieToGroup: handleRequest(addMovieToGroup),
     deleteMovieFromGroup: handleRequest(deleteMovieFromGroup),
     createGroup: handleRequest(createGroup),
@@ -68,17 +67,17 @@ export default function (
     });
   }
 
+  async function getAbout(req, rsp) {
+    rsp.render("about");
+  }
+
   async function getAllGroups(req, rsp) {
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
     const skip = req.query.skip ? parseInt(req.query.skip) : 0;
     const groups = await fmdbGroupServices.getAllGroups(limit, skip);
-    groups.forEach((element) => {
-      element.movieId = req.query.movieId;
-    });
     return new View("groups", {
       title: "All groups",
       groups: groups,
-      movieId: req.query.movieId,
       limit: limit,
       skip: skip,
     });
@@ -93,13 +92,17 @@ export default function (
       limit,
       skip
     );
-    groups.forEach((element) => {
-      element.movieId = req.query.movieId;
-    });
+    const movieIdToAdd = req.query.movieId;
+    if (movieIdToAdd) {
+      groups.forEach((group) => {
+        if (!movieExistsInGroup(movieIdToAdd, group)) {
+          group.movieId = movieIdToAdd;
+        }
+      });
+    }
     return new View("groups", {
       title: "My Groups",
       groups: groups,
-      movieId: req.query.movieId,
       limit: limit,
       skip: skip,
     });
@@ -109,10 +112,6 @@ export default function (
     const groupId = req.params.groupId;
     const group = await fmdbGroupServices.getGroup(req.user.token, groupId);
     return new View("group", { group: group });
-  }
-
-  async function getNewGroup(req, rsp) {
-    rsp.render("newGroup");
   }
 
   async function deleteGroup(req, rsp) {
@@ -131,16 +130,8 @@ export default function (
     rsp.redirect(`/auth/groups`);
   }
 
-  async function getUpdateGroup(req, rsp) {
-    const group = await fmdbGroupServices.getGroup(
-      req.user.token,
-      req.params.groupId
-    );
-    return new View("updateGroup", { group: group });
-  }
-
   async function createGroup(req, rsp) {
-    let newGroup = await fmdbGroupServices.createGroup(
+    await fmdbGroupServices.createGroup(
       req.user.token,
       req.body.name,
       req.body.description
@@ -172,7 +163,6 @@ export default function (
     return new View("movies", {
       title: "Top movies",
       movies: movies,
-      loginId: req.cookies.token,
       limit: limit,
       skip: skip,
     });
@@ -189,7 +179,6 @@ export default function (
     return new View("moviesExpression", {
       title: `Results for "${req.query.expression}"`,
       movies: movies,
-      loginId: req.cookies.token,
       limit: limit,
       skip: skip,
       expression: req.query.expression,
@@ -203,6 +192,10 @@ export default function (
   }
 
   // Helper functions
+
+  function movieExistsInGroup(movieId, group) {
+    return group.movies.some((movie) => movie.id == movieId);
+  }
 
   function View(name, data) {
     this.name = name;

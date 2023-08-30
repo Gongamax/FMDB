@@ -1,19 +1,11 @@
-# CMDb Website documentation
+# FMDb Website documentation
 
 ### University : Instituto Superior de Engenharia de Lisboa
 
 ### Authors : 
-    - Daniel Carvalho (49419)
-    - Gonçalo Frutuoso (49495)
-    - Ricardo Cristino (49417)
-
-### Professors : 
-    - Luis Falcão 
-    - Filipe Freitas
+    - Gonçalo Frutuoso 
 
 ## Application Structure
-
-![App Structure Diagram](./img/App_Struct.png)
 
 1. fmdb-server.mjs - This file contains the main entry point of the server application, where lies the routes.
 2. fmdb-web-api.mjs - The module enables communication between the client and server through JSON responses. This means that all services can be used without a graphical interface by an automated client, like the TMDB API is being used in the imdb-movie-data module. Additionally, it enables the graphical interface to make requests to the server without receiving unneeded information, such as when updating a group or adding/removing movies or groups in the database.

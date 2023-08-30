@@ -1,27 +1,49 @@
-<div class="mask" style="background-color: rgba(0, 0, 0, 0.8); min-height: 100vh; max-height:fit-content + 10vh;">
-<div class="text-white">
-<center><h1>Group "{{group.Name}}" information:</h1></center>
-<ul>
-    <p> - Name: {{group.Name}}</p>
-    <p> - Description: {{group.Description}}</p>
-    <p> - id: {{group.groupId}}</p>
-    <p> - Movies:
-        <ul>
+<body class="bg-dark text-white">
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin-bottom: 15px;
+    }
+  </style>
+  <div class="container">
+    <div class="group-info">
+      <h1 class="text-warning">Group "{{group.Name}}" Information</h1>
+      <ul>
+        <li><strong class="text-warning">Name:</strong> {{group.Name}}</li>
+        <li><strong class="text-warning">Description:</strong> {{group.Description}}</li>
+        <li><strong class="text-warning">Id:</strong> {{group.groupId}}</li>
+        <li><strong class="text-warning">Movies:</strong>
+          <ul>
             {{#each group.movies}}
-                <p><img src="https://image.tmdb.org/t/p/w500{{poster_path}}" width="60" height="80" alt=""> {{title}}</p>
-                <form class="d-flex" action="/auth/groups/{{../group.groupId}}/deleteMovie/{{id}}" method="POST">
-                <button class="btn btn-outline-primary mb-3" type="submit">- Delete movie</button>
-                </form>
-                <p class="card-text"><strong>Release Date:</strong> {{release_date}}</p>
-                <p class="card-text"><strong>Run Time:</strong> {{runtime}} minutes</p>
-                <p class="card-text"><strong>Rating:</strong> {{vote_average}}</p>
-                <p class="card-text"><strong>Overview:</strong> {{overview}}</p>
+              <li class="movie-details">
+                <img src="https://image.tmdb.org/t/p/w500{{poster_path}}" alt="{{title}}" class="group-movie-poster">
+                <div>
+                  <p><strong>Title:</strong> {{title}}</p>
+                  <p><strong>Release Date:</strong> {{release_date}}</p>
+                  <p><strong>Run Time:</strong> {{runtime}} minutes</p>
+                  <p><strong>Rating:</strong> {{vote_average}}</p>
+                  <p><strong>Overview:</strong> {{overview}}</p>
+                  <form class="d-flex" action="/auth/groups/{{../group.groupId}}/deleteMovie/{{id}}" method="POST">
+                    <button class="btn btn-outline-primary btn-delete" type="submit">Delete Movie</button>
+                  </form>
+                </div>
+              </li>
             {{/each}}
-        </ul>
-    </p>
-    <p>
-        - Run Time of my group: {{group.TotalTime}} minutes
-    </p>
-</ul>
-</div>  
-</div>
+          </ul>
+        </li>
+        <li><strong class="text-warning">Run Time of this group:</strong> {{group.TotalTime}} minutes</li>
+      </ul>
+    </div>
+  </div>
+</body>
+

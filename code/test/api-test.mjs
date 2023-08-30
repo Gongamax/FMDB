@@ -23,60 +23,59 @@ const fmdbApi = fmdbApiInit(
 );
 
 //TO RUN TESTS: npx mocha .\code\test\api-test.mjs
+//PS: Make sure both server and database are running both locally or both on elastic
 
 describe("Api tests ", function () {
   it("create a group ", async function () {
-    let user = fmdbUserServices.createUser("Ricardo", "1234");
-    const response = await request(app)
-      .post(`/api/users/:${user.ID}/groups`)
+    const user = fmdbUserServices.createUser("Ricardo", "1234");
+    await request(app)
+      .post(`/api/groups`)
       .set("Authorization", `Bearer ${(await user).token}`)
       .set("Accept", "application/json")
       .expect("Content-Type", /json/)
       .expect(201);
   });
-  // it("delete a group", async function () {
-  //   let a = fmdbUserServices.createUser("Ricardo", "1234");
-  //   let b = fmdbGroupServices.createGroup("b", "c", a.ID);
-  //   const response = request(app)
-  //     .delete(`/api/users/:${a.ID}/groups/76`)
-  //     .expect(400);
-  // });
+  it("delete a group", async function () {
+    const user = fmdbUserServices.createUser("Ricardo", "1234");
+    fmdbGroupServices.createGroup("b", "c", user.ID);
+    request(app).delete(`/api/groups/76`).expect(400);
+  });
 
-  // it("get top movies", async function () {
-  //   const response = await request(app)
-  //     .get("/api/topMovies", fmdbApi.getTopMovies())
-  //     .query("5")
-  //     .expect("Content-Type", /json/)
-  //     .expect(200);
-  // });
+  it("get top movies", async function () {
+    await request(app)
+      .get("/api/topMovies", fmdbApi.getTopMovies())
+      .query("5")
+      .expect("Content-Type", /json/)
+      .expect(200);
+  });
 
-  // it("create a group and update", async () => {
-  //   let a = fmdbUserServices.createUser("Ricardo", "1234");
-  //   let b = fmdbGroupServices.createGroup("b", "c", a.ID);
+  it("create a group and update", async () => {
+    const user = fmdbUserServices.createUser("Ricardo", "1234");
+    const group = fmdbGroupServices.createGroup("b", "c", user.ID);
 
-  //   const response = await request(app)
-  //     .put(`/api/users/:${a.ID}/groups/:${b.ID}`)
-  //     .set("Authorization", `Bearer ${(await a).token}`)
-  //     .set("Accept", "application/json")
-  //     .expect("Content-Type", /json/)
-  //     .expect(200); // or see below
-  // });
+    await request(app)
+      .put(`/api/groups/:${group.ID}`)
+      .set("Authorization", `Bearer ${(await user).token}`)
+      .set("Accept", "application/json")
+      .expect("Content-Type", /json/)
+      .expect(200); // or see below
+  });
 
-  // it("movie by expression", async function () {
-  //   const expression = "The Godfather";
-  //   const response = request(app)
-  //     .get(`/api/movies/:${expression}`)
-  //     .set("Accept", "application/json")
-  //     .expect("Content-Type", /json/)
-  //     .expect(200);
-  // });
+  it("movie by expression", async function () {
+    const expression = "The Godfather";
+    request(app)
+      .get(`/api/movies/:${expression}`)
+      .set("Accept", "application/json")
+      .expect("Content-Type", /json/)
+      .expect(200);
+  });
 
-  // it("create user", async function () {
-  //   const response = request(app)
-  //     .post("/api/users")
-  //     .set("Accept", "application/json")
-  //     .expect("Content-Type", /json/)
-  //     .send("ricardo")
-  //     .expect(201);
-  // });
+  it("create user", async function () {
+    request(app)
+      .post("/api/users")
+      .set("Accept", "application/json")
+      .expect("Content-Type", /json/)
+      .send("ricardo")
+      .expect(201);
+  });
 });
